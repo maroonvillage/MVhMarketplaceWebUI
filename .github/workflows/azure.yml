@@ -1,50 +1,35 @@
-# This workflow will build and push a node.js application to an Azure Web App when a release is created.
-#
-# This workflow assumes you have already created the target Azure App Service web app.
-# For instructions see https://docs.microsoft.com/azure/app-service/app-service-plan-manage#create-an-app-service-plan
-#
-# To configure this workflow:
-#
-# 1. For Linux apps, add an app setting called WEBSITE_WEBDEPLOY_USE_SCM and set it to true in your app **before downloading the file**.
-#      For more instructions see: https://docs.microsoft.com/azure/app-service/configure-common#configure-app-settings
-#
-# 2. Set up a secret in your repository named AZURE_WEBAPP_PUBLISH_PROFILE with the value of your Azure publish profile.
-#    For instructions on obtaining the publish profile see: https://docs.microsoft.com/azure/app-service/deploy-github-actions#configure-the-github-secret
-#
-# 3. Change the values for the AZURE_WEBAPP_NAME, AZURE_WEBAPP_PACKAGE_PATH and NODE_VERSION environment variables  (below).
-#
-# For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
-# For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
-on:
-  release:
-    types: [created]
+name: Deploy ASP.NET MVC App deploy to Azure Web App
+
+on: [push]
 
 env:
   AZURE_WEBAPP_NAME: mvhairmarketplaceweb    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-  DOT_NET_VERSION: '5.x'                # set this to the node version to use
+  NUGET_VERSION: '5.3.x'           # set this to the dot net version to use
 
 jobs:
   build-and-deploy:
-    name: Build and Deploy
-    runs-on: ubuntu-latest
-    environment: production
+    runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Use .NET ${{ env.DOT_NET_VERSION }}
-      uses: actions/setup-dotnet@v1
+
+    - uses: actions/checkout@main  
+    
+    - name: Install Nuget
+      uses: nuget/setup-nuget@v1
       with:
-        dotnet-version: ${{ env.DOT_NET_VERSION }}
-    - name: dotnet build and publish
-      run: |
-        # Build and test the project, then
-        # deploy to Azure Web App.
-        dotnet restore
-        dotnet build --configuration Release
-        dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/{{env.AZURE_WEBAPP_NAME}}' 
-    - name: 'Deploy to Azure WebApp'
+        nuget-version: ${{ env.NUGET_VERSION}}
+    - name: NuGet to restore dependencies as well as project-specific tools that are specified in the project file
+      run: nuget restore
+  
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.0
+
+    - name: Run MSBuild
+      run: msbuild .\webui.sln
+       
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
       uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      with: 
+        app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }} # Define secret variable in repository settings as per action documentation
+        package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/webui/'
