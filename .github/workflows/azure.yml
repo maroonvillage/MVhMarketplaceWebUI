@@ -6,7 +6,7 @@ env:
   AZURE_WEBAPP_NAME: mvhairmarketplaceweb    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '5.0'           # set this to the dot net version to use
-  SLOT_NAME: 'mvhairmarketplaceweb-staging'
+  SLOT_NAME: 'staging'
 
 jobs:
   build:
