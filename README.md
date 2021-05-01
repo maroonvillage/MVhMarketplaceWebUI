@@ -1,2 +1,2 @@
 # MVhMarketplaceWebUI
-This app is web user-interface for MaroonVillage Hair marketplace
+This app is web user-interface for MaroonVillage Hair marketplace.
