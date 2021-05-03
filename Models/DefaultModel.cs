@@ -1,0 +1,68 @@
+﻿using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Dynamic;
+using System.Linq;
+using System.Security.Principal;
+using System.Threading.Tasks;
+using webcoreapp.Common;
+
+namespace webcoreapp.Models
+{
+    [NotMapped]
+    public class DefaultModel : DynamicObject
+    {
+        private Marketplace _marketPlace;
+        private SitePageType _page = SitePageType.Unknown;
+        private string _pageTitle;
+        private IList<string> _validationMessages;
+        private IDictionary<string, SiteContent> _siteContentBlock;
+        private SiteSetting _siteSettings;
+        public SiteContent SiteContent { get; set; }
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// A main error message for any given page
+        /// </summary>
+        public string ErrorMessage { get; set; }
+
+        /// <summary>
+        /// Page to be displayed
+        /// </summary>
+        public SitePageType Page { get { return _page; } set { _page = value; } }
+
+        /// <summary>
+        /// Title for the page to be rendered inside &lt;title&gt;&lt;/title&gt;
+        /// </summary>
+        public string PageTitle
+        {
+            get { return _pageTitle ?? string.Empty; }
+            set { _pageTitle = value; }
+        }
+
+        public string MarketplaceLogoImagePath
+        {
+            get
+
+            {
+                var imgBasePath = _configuration.GetValue(typeof(string), "ImageBasePath");
+                var logoFolder = _configuration.GetValue(typeof(string), "MarketplaceImageLogoPath");
+
+                var logoPath = !string.IsNullOrWhiteSpace(_marketPlace.HeaderLogo) ? $"{imgBasePath}{_marketPlace.MarketplaceId.ToString()}{logoFolder}{_marketPlace.HeaderLogo}" :
+                        imgBasePath.ToString();
+
+                return logoPath;
+            }
+        }
+        /// <summary>
+        /// Current logged in user or null if Anonymous
+        /// </summary>
+        public IPrincipal User { get; set; }
+
+        public IDictionary<string, SiteContent> SiteContentBlock { get { return _siteContentBlock ?? new Dictionary<string, SiteContent>(); } set { _siteContentBlock = value; } }
+
+        public Marketplace Marketplace { get { return _marketPlace ?? (_marketPlace = new Marketplace { MarketplaceId = -1 }); } set { _marketPlace = value; } }
+
+    }
+}
