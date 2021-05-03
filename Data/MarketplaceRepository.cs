@@ -1,12 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using webcoreapp.Models;
+using webui.Models;
 
-namespace webcoreapp.Data
+namespace webui.Data
 {
     public class MarketplaceRepository : IMarketplaceRepository
     {

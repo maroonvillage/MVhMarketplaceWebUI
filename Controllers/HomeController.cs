@@ -5,19 +5,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using webui.Data;
 using webui.Models;
+using webui.Services;
 
 namespace webui.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : SiteControllerBase
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IMarketplaceService _marketPlaceService;
+        private readonly ISiteContentService _siteContentService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger,IMarketplaceService marketPlaceService, ISiteContentService siteContentService) :
+            base(context, marketPlaceService, siteContentService)
         {
-            _logger = logger;
-        }
+            _context = context;
+            _marketPlaceService = marketPlaceService;
+            _siteContentService = siteContentService;
 
+        }
         public IActionResult Index()
         {
             return View();

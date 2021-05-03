@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace webcoreapp.Models
+namespace webui.Models
 {
     [NotMapped]
     public partial class TemplateBlock

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using webcoreapp.Data;
-using webcoreapp.Models;
+using webui.Data;
+using webui.Models;
+using webui.Services;
 
-namespace webcoreapp.Services
+namespace webui.Services
 {
     public class SiteContentService : ISiteContentService
     {

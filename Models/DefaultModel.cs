@@ -1,14 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Dynamic;
-using System.Linq;
 using System.Security.Principal;
-using System.Threading.Tasks;
-using webcoreapp.Common;
+using webui.Enums;
 
-namespace webcoreapp.Models
+namespace webui.Models
 {
     [NotMapped]
     public class DefaultModel : DynamicObject

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using webcoreapp.Common;
-using webcoreapp.Extensions;
-using webcoreapp.Models;
-using webcoreapp.Services;
+using webui.Enums;
+using webui.Extensions;
+using webui.Models;
+using webui.Services;
 
-namespace webcoreapp.Controllers
+namespace webui.Controllers
 {
     public class SiteControllerBase : Controller
     {
@@ -26,7 +25,10 @@ namespace webcoreapp.Controllers
             get
             {
                 return _marketPlace ?? HttpContext.Session.Get<Marketplace>(SessionKeyName) ?? new Marketplace();
+
+                //HttpContext.Session
             }
+
             set
             {
                 _marketPlace = value;

@@ -1,13 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Threading.Tasks;
-using webcoreapp.Enumerators;
-using webcoreapp.Models;
+using System.Data.SqlClient;
+using webui.Models;
 
-namespace webcoreapp.Data
+namespace webui.Data
 {
     public class SiteContentRepository : ISiteContentRepository
     {

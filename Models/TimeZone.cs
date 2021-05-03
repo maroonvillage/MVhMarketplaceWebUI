@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace webcoreapp.Models
+namespace webui.Models
 {
     [NotMapped]
     public partial class TimeZone

@@ -1,11 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using webcoreapp.Data;
+using Microsoft.Extensions.Logging;
+using webui.Data;
+using webui.Services;
 
-namespace webcoreapp.Services
+namespace webui.Services
 {
     public static class ServiceExtensions
     {

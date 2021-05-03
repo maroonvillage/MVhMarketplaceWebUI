@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
 
-namespace webcoreapp.Extensions
+namespace webui.Extensions
 {
     public static class SessionExtensions
     {
