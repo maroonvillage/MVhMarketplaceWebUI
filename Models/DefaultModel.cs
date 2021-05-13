@@ -18,6 +18,13 @@ namespace webui.Models
         private SiteSetting _siteSettings;
         public SiteContent SiteContent { get; set; }
         private readonly IConfiguration _configuration;
+        private dynamic _data;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public dynamic Data { get { return _data ?? (_data = new ExpandoObject()); } set { _data = value; } }
+
 
         /// <summary>
         /// A main error message for any given page
@@ -34,7 +41,7 @@ namespace webui.Models
         /// </summary>
         public string PageTitle
         {
-            get { return _pageTitle ?? string.Empty; }
+            get { return _pageTitle ?? "No Page Title"; }
             set { _pageTitle = value; }
         }
 

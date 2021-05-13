@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.SqlClient;
 using webui.Models;
+using webcoreapp.Enumerators;
 
 namespace webui.Data
 {
@@ -71,7 +72,7 @@ namespace webui.Data
                             PageId = Convert.ToInt32(reader["PageId"]),
                             ContentName = reader["ContentName"].ToString(),
                             ContentValue = reader["ContentValue"].ToString(),
-                            DynamicContentType = Convert.ToInt32(reader["DynamicContentType"]),
+                            ContentType = (DynamicContentType) Convert.ToInt32(reader["DynamicContentType"]),
                             Block =
                             {
                                 BlockId = Convert.ToInt32(reader["BlockId"]),
