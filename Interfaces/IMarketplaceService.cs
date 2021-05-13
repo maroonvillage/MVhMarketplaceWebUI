@@ -1,6 +1,6 @@
 ﻿using webui.Models;
 
-namespace webui.Services
+namespace webui.Interfaces
 {
     public interface IMarketplaceService
     {

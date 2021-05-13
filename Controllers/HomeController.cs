@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using webui.Data;
+using webui.Enums;
+using webui.Interfaces;
 using webui.Models;
 using webui.Services;
 
@@ -16,18 +18,29 @@ namespace webui.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IMarketplaceService _marketPlaceService;
         private readonly ISiteContentService _siteContentService;
-
-        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger,IMarketplaceService marketPlaceService, ISiteContentService siteContentService) :
+        private readonly IServiceProvider _service;
+        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger,
+                IMarketplaceService marketPlaceService, ISiteContentService siteContentService, IServiceProvider serviceProvider) :
             base(context, marketPlaceService, siteContentService)
         {
             _context = context;
             _marketPlaceService = marketPlaceService;
             _siteContentService = siteContentService;
+            _service = serviceProvider;
 
         }
         public IActionResult Index()
         {
-            return View();
+            if (Marketplace.MarketplaceId == 0) return RedirectToAction("Error");
+
+            HomeModel model = CreateModel<HomeModel>(page: SitePageType.Home, action: x =>
+            {
+                x.PageTitle = "MV Hair - Home Page";
+                
+
+            },serviceProvider: _service);
+
+            return View(model);
         }
 
         public IActionResult Privacy()

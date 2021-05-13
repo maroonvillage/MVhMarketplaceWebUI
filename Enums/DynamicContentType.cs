@@ -15,6 +15,7 @@ namespace webcoreapp.Enumerators
         VendorImageFeed = 4,
         InfoBlurb = 5,
         Menu = 6,
-        PartialView = 7
+        PartialView = 7,
+        SiteImage = 8
     }
 }

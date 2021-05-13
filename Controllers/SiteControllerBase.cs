@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using webui.Enums;
 using webui.Extensions;
+using webui.Interfaces;
 using webui.Models;
 using webui.Services;
 
@@ -32,6 +33,7 @@ namespace webui.Controllers
             set
             {
                 _marketPlace = value;
+                HttpContext.Session.Set<Marketplace>(SessionKeyName, _marketPlace);
             }
         }
 
@@ -61,12 +63,13 @@ namespace webui.Controllers
                 return;
             }
 
-            HttpContext.Session.Set<Marketplace>(SessionKeyName, Marketplace);
-
+            //HttpContext.Session.Set<Marketplace>(SessionKeyName, Marketplace);
+           
 
         }
 
-        protected T CreateModel<T>(Action<T> action = null, string pageMachineName = null, SitePageType? page = null)
+        protected T CreateModel<T>(Action<T> action = null, string pageMachineName = null, SitePageType? page = null,
+            IServiceProvider? serviceProvider = null)
            where T : DefaultModel, new()
         {
             return LoadModelData(new T(), action, pageMachineName, page);

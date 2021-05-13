@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using webui.Data;
+using webui.Interfaces;
 using webui.Services;
 
 namespace webui.Services
@@ -16,6 +17,11 @@ namespace webui.Services
             services.AddTransient<ISiteContentRepository, SiteContentRepository>();
             // Add all other services here.
             return services;
+        }
+
+        public static IServiceCollection GetServices(this IServiceCollection services)
+        {
+            return services.GetServices();
         }
     }
 }
