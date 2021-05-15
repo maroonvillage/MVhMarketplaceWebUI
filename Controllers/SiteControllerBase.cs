@@ -60,8 +60,6 @@ namespace webui.Controllers
                 Response.Redirect("/error/marketplace-not-configured");
                 return;
             }
-
-            //HttpContext.Session.Set<Marketplace>(SessionKeyName, Marketplace);
            
 
         }
