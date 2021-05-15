@@ -26,8 +26,6 @@ namespace webui.Controllers
             get
             {
                 return _marketPlace ?? HttpContext.Session.Get<Marketplace>(SessionKeyName) ?? new Marketplace();
-
-                //HttpContext.Session
             }
 
             set
@@ -69,14 +67,15 @@ namespace webui.Controllers
         }
 
         protected T CreateModel<T>(Action<T> action = null, string pageMachineName = null, SitePageType? page = null,
-            IServiceProvider? serviceProvider = null)
+            IServiceProvider serviceProvider = null)
            where T : DefaultModel, new()
         {
-            return LoadModelData(new T(), action, pageMachineName, page);
+            return LoadModelData(new T(), action, pageMachineName, page, serviceProvider);
         }
 
 
-        protected virtual T LoadModelData<T>(T model, Action<T> action = null, string pageMachineName = null, SitePageType? page = null)
+        protected virtual T LoadModelData<T>(T model, Action<T> action = null, string pageMachineName = null,
+            SitePageType? page = null, IServiceProvider serviceProvider = null)
            where T : DefaultModel
         {
             model.Marketplace = Marketplace;
@@ -105,6 +104,8 @@ namespace webui.Controllers
             {
                 action(model);
             }
+
+            model.ServiceProvider = serviceProvider;
 
             return model;
         }

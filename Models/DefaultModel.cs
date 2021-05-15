@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Dynamic;
@@ -19,6 +20,7 @@ namespace webui.Models
         public SiteContent SiteContent { get; set; }
         private readonly IConfiguration _configuration;
         private dynamic _data;
+        private IServiceProvider _serviceProvider;
 
         /// <summary>
         /// 
@@ -68,5 +70,12 @@ namespace webui.Models
 
         public Marketplace Marketplace { get { return _marketPlace ?? (_marketPlace = new Marketplace { MarketplaceId = -1 }); } set { _marketPlace = value; } }
 
+        public IServiceProvider ServiceProvider
+
+        {
+            get { return _serviceProvider; }
+            set { _serviceProvider = value; }
+
+        }
     }
 }

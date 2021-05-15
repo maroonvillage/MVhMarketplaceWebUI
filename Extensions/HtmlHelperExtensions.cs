@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using System.ServiceModel.Syndication;
 using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using webcoreapp.Enumerators;
 using webui.Interfaces;
 using webui.Models;
-using webui.Services;
 
 namespace webui.Extensions
 {
@@ -23,16 +20,15 @@ namespace webui.Extensions
         private const string DefaultFeedPartialViewName = "GenericFeed";
 
         #region SiteContentBlock
+        public static IHtmlContent SimpleHtmlString(this IHtmlHelper htmlHelper)
+            => new HtmlString("This is a simple HtlString!");
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="html"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public static IHtmlContent SiteContentBlock<T>(this HtmlHelper<T> html, string key)
-             where T : DefaultModel
+        public static String HelloWorldString(this IHtmlHelper htmlHelper)
+           => "<strong>Hello World</strong>";
+
+
+
+        public static IHtmlContent SiteContentBlock<T>(this IHtmlHelper<T> html, string key) where T : DefaultModel
         {
             var siteContentBlock = html.ViewData.Model.SiteContentBlock;
             if (siteContentBlock == null)
@@ -40,14 +36,15 @@ namespace webui.Extensions
                 return new HtmlString(SiteContentblockIsNullMessage);
             }
 
-            SiteContent content;
-            if (!siteContentBlock.TryGetValue(key, out content) || content == null)
+            if (!siteContentBlock.TryGetValue(key, out SiteContent content) || content == null)
             {
                 return new HtmlString(string.Format(SiteContentBlockDataIsNullOrMissingFormattedMessage, key));
             }
 
             return html.SiteContent(content);
+
         }
+
 
         /// <summary>
         /// Renders div tags to display sprite
@@ -104,7 +101,7 @@ namespace webui.Extensions
         /// <param name="html"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        private static IHtmlContent SiteContent<T>(this HtmlHelper<T> html, SiteContent content)
+        public static IHtmlContent SiteContent<T>(this IHtmlHelper<T> html, SiteContent content)
             where T : DefaultModel
         {
             if ((bool)content.IsFeed)
@@ -132,7 +129,7 @@ namespace webui.Extensions
         /// <param name="html"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        private static IHtmlContent SiteContentHtml<T>(this HtmlHelper<T> html, SiteContent content)
+        private static IHtmlContent SiteContentHtml<T>(this IHtmlHelper<T> html, SiteContent content)
             where T : DefaultModel
         {
 
@@ -154,12 +151,12 @@ namespace webui.Extensions
         /// <param name="html"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        private static IHtmlContent SiteContentFeed<T>(this HtmlHelper<T> html, SiteContent content)
+        private static IHtmlContent SiteContentFeed<T>(this IHtmlHelper<T> html, SiteContent content)
             where T : DefaultModel
         {
-            dynamic feed = null;/// DependencyResolver.Current.GetService<IFeedService>().GetFeed(content);
-
-            if (feed == null || !feed.Items.Any())
+            //dynamic feed = null;/// DependencyResolver.Current.GetService<IFeedService>().GetFeed(content);
+            dynamic feedSvc = content.ServiceProvider.GetService(typeof(IFeedService));
+            if (feedSvc == null || !feedSvc.Items.Any())
             {
                 var value = string.Empty;
                 if (Debugger.IsAttached)
@@ -172,7 +169,7 @@ namespace webui.Extensions
 
             var model = new FeedModel
             {
-                Feed = feed,
+                Feed = feedSvc,
                 SiteContent = content
             };//.CopyPropertiesFrom(html.ViewData.Model);
 
@@ -186,7 +183,7 @@ namespace webui.Extensions
         /// <param name="html"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        private static IHtmlContent SiteContentDynamicContent<T>(this HtmlHelper<T> html, SiteContent content)
+        private static IHtmlContent SiteContentDynamicContent<T>(this IHtmlHelper<T> html, SiteContent content)
             where T : DefaultModel
         {
 
@@ -194,8 +191,9 @@ namespace webui.Extensions
             {
                 return html.Partial(content, html.ViewData.Model);
             }
-
-            dynamic data = null;// Current.GetService<IDynamicContentService>().GetData(content);
+            
+            //dynamic data = null;// Current.GetService<IDynamicContentService>().GetData(content);
+            dynamic data = content.ServiceProvider.GetService(typeof(IDynamicContentService));
 
             if (data == null)
             {
@@ -220,7 +218,7 @@ namespace webui.Extensions
         /// <param name="content"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        private static IHtmlContent Partial(this HtmlHelper html, SiteContent content, DefaultModel model)
+        private static IHtmlContent Partial(this IHtmlHelper html, SiteContent content, DefaultModel model)
         {
             model.SiteContent = content;
 

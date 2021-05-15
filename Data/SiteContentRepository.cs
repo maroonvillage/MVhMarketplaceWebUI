@@ -72,6 +72,7 @@ namespace webui.Data
                             PageId = Convert.ToInt32(reader["PageId"]),
                             ContentName = reader["ContentName"].ToString(),
                             ContentValue = reader["ContentValue"].ToString(),
+                            IsFeed = reader["IsFeed"] != null && Convert.ToBoolean(reader["IsFeed"]),
                             ContentType = (DynamicContentType) Convert.ToInt32(reader["DynamicContentType"]),
                             Block =
                             {

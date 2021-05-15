@@ -7,7 +7,7 @@ using webcoreapp.Enumerators;
 namespace webui.Models
 {
     [NotMapped]
-    public partial class SiteContent
+    public partial class SiteContent : DefaultModel
     {
         public int MarketplaceId { get; set; }
         public int PageId { get; set; }
@@ -26,10 +26,6 @@ namespace webui.Models
             Template = new Template();
         }
 
-        public SiteContent(IServiceProvider serviceProvider)
-        {
-
-        }
 
     }
 
