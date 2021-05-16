@@ -16,6 +16,7 @@ namespace webcoreapp.Enumerators
         InfoBlurb = 5,
         Menu = 6,
         PartialView = 7,
-        SiteImage = 8
+        SiteImage = 8,
+        SiteSettings = 9
     }
 }

@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.SqlClient;
+using webui.Interfaces;
 using webui.Models;
 
 namespace webui.Data
@@ -158,5 +161,84 @@ namespace webui.Data
            
             return  new Template();
         }
+
+        public Menu GetMenuByName(int marketPlaceId, string menuName)
+        {
+
+                Menu menu = null;
+
+            var sqlText = @"SELECT 
+                            m.MenuId,
+                            m.MenuParentId,
+                            m.MenuName,
+                            m.MarketplaceId, 
+                            mi.MenuItemId,
+                            mi.SequenceNumber,
+                            mi.ItemName,
+                            mi.Controller,
+                            mi.[Action],
+                            mi.Title,
+                            mi.LinkId
+                            FROM Menus m
+                              INNER JOIN MenuItems mi
+                                on m.MenuId = mi.MenuId
+                            WHERE m.MarketplaceId = @id AND m.MenuName = @name AND mi.IsActive = 1
+                            ORDER BY mi.SequenceNumber;
+                            ";
+                try
+                {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    var command = new SqlCommand(sqlText, connection)
+                    {
+                        CommandType = System.Data.CommandType.Text
+                    };
+                    //set parameters 
+                    command.Parameters.AddWithValue("@id", marketPlaceId);
+                    command.Parameters.AddWithValue("@name", menuName);
+
+
+                        command.Connection.Open();
+
+                        menu = new Menu();
+                        menu.MenuItems = new List<MenuItem>();
+
+                    using var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        MenuItem mi = new MenuItem();
+
+                        menu.MenuId = Convert.ToInt32(reader["MenuId"]);
+                        menu.MenuParentId = reader["MenuParentId"] != DBNull.Value ? Convert.ToString(reader["MenuParentId"]) : null;
+                        mi.MenuItemId = Convert.ToInt32(reader["MenuItemId"]);
+                        mi.SequenceNumber = reader["SequenceNumber"] != DBNull.Value ? Convert.ToInt32(reader["SequenceNumber"]) : null;
+                        mi.ItemName = Convert.ToString(reader["ItemName"]);
+                        mi.Controller = Convert.ToString(reader["Controller"]);
+                        mi.Action = Convert.ToString(reader["Action"]);
+                        mi.Title = Convert.ToString(reader["Title"]);
+                        mi.LinkId = reader["LinkId"] != DBNull.Value ? Convert.ToInt32(reader["LinkId"]) : null;
+                        menu.MenuItems.Add(mi);
+
+                    }// end while
+                     // end using
+
+                }// end using
+
+                }
+                catch (SqlException sqlex)
+                {
+                    throw new Exception($"GetMenuByName: Caught a SqlException: {sqlex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"GetMenuByName: Caught a general exception: {ex.StackTrace}");
+
+                }
+                finally
+                {
+                }
+
+                return menu;
+            }
     }
 }

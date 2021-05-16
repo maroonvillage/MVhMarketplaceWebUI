@@ -11,5 +11,8 @@ namespace webui.Models
         public int BlockImageId { get; set; }
         public int BlockId { get; set; }
         public int? CarouselImageId { get; set; }
+        public int ImageId { get; set; }
+        public bool IsLogo { get; set; }
+
     }
 }

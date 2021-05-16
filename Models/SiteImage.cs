@@ -14,5 +14,7 @@ namespace webui.Models
         public string FileName { get; set; }
         public int? SequenceNumber { get; set; }
         public int? WebsiteId { get; set; }
+        public BlockImage BlockImage { get; set; }
+
     }
 }

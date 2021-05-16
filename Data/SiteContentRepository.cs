@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.SqlClient;
 using webui.Models;
+using webui.Interfaces;
 using webcoreapp.Enumerators;
 
 namespace webui.Data

@@ -16,7 +16,7 @@ namespace webui.Models
         private string _pageTitle;
         private IList<string> _validationMessages;
         private IDictionary<string, SiteContent> _siteContentBlock;
-        private SiteSetting _siteSettings;
+        private SiteSettings _siteSettings;
         public SiteContent SiteContent { get; set; }
         private readonly IConfiguration _configuration;
         private dynamic _data;

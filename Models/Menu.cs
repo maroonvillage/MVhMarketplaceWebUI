@@ -12,5 +12,8 @@ namespace webui.Models
         public string MenuName { get; set; }
         public string MenuParentId { get; set; }
         public int? SiteId { get; set; }
+
+        public IList<MenuItem> MenuItems { get; set; }
+
     }
 }
