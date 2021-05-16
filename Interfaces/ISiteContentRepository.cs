@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using webui.Models;
 
-namespace webui.Data
+namespace webui.Interfaces
 {
     public interface ISiteContentRepository
     {

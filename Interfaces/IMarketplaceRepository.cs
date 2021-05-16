@@ -1,6 +1,6 @@
 ﻿using webui.Models;
 
-namespace webui.Data
+namespace webui.Interfaces
 {
     public interface IMarketplaceRepository
     {
@@ -9,5 +9,6 @@ namespace webui.Data
         MarketplaceSetting GetMarketplaceSettingsById(int marketPlaceId);
         MarketplaceTheme GetThemeByMarketplaceId(int marketPlaceId);
         Template GetTemplateById(int templateId);
+        Menu GetMenuByName(int marketPlaceId, string menuName);
     }
 }
