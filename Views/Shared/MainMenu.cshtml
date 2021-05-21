@@ -1,0 +1,17 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model HomeModel
+@{
+    var menu = (Menu)Model.Data;
+}
+<div class="collapse navbar-collapse justify-content-end" id="navigation">
+        <ul class="navbar-nav">
+            @foreach(var mi in menu.MenuItems) { 
+            <li class="nav-item">
+                <a asp-controller="@mi.Controller"
+                   asp-action="@mi.Action" class="nav-link"><i class="nc-icon nc-layout-11"></i> @mi.Title</a>
+            </li>
+            }
+        </ul>
+    </div>
