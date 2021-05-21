@@ -64,16 +64,15 @@ namespace webui.Controllers
 
         }
 
-        protected T CreateModel<T>(Action<T> action = null, string pageMachineName = null, SitePageType? page = null,
-            IServiceProvider serviceProvider = null)
+        protected T CreateModel<T>(Action<T> action = null, string pageMachineName = null, SitePageType? page = null)
            where T : DefaultModel, new()
         {
-            return LoadModelData(new T(), action, pageMachineName, page, serviceProvider);
+            return LoadModelData(new T(), action, pageMachineName, page);
         }
 
 
         protected virtual T LoadModelData<T>(T model, Action<T> action = null, string pageMachineName = null,
-            SitePageType? page = null, IServiceProvider serviceProvider = null)
+            SitePageType? page = null)
            where T : DefaultModel
         {
             model.Marketplace = Marketplace;
@@ -102,8 +101,6 @@ namespace webui.Controllers
             {
                 action(model);
             }
-
-            model.ServiceProvider = serviceProvider;
 
             return model;
         }

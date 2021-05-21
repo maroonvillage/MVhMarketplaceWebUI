@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using webcoreapp.Enumerators;
 using webui.Interfaces;
 using webui.Models;
@@ -22,7 +21,12 @@ namespace webui.Services
             return _siteSettingseRepository.GetSiteSettingsByMarketplaceId(marketPlaceId);
         }
 
-            public bool CanProviderData(SiteContent siteContent)
+        public IList<SiteImage>  GetSiteImagesByMarketplaceId(int marketPlaceId)
+        {
+            return _siteSettingseRepository.GetSiteImagesByMarketplaceId(marketPlaceId);
+        }
+
+        public bool CanProviderData(SiteContent siteContent)
         {
             switch (siteContent.ContentType)
             {
@@ -33,18 +37,12 @@ namespace webui.Services
             }
         }
 
-
-        public IList<SiteImage>  GetSiteImagesByMarketplaceId(int marketPlaceId)
-        {
-            return _siteSettingseRepository.GetSiteImagesByMarketplaceId(marketPlaceId);
-        }
-
         public dynamic GetData(SiteContent siteContent)
         {
             switch (siteContent.ContentType)
             {
                 case DynamicContentType.SiteSettings:
-                    return null; // call method to get site settings
+                    return GetSiteSettingsByMarketplaceId(siteContent.MarketplaceId); // call method to get site settings
                 default:
                     return false;
             }

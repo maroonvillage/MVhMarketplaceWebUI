@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using webcoreapp.Enumerators;
 using webui.Interfaces;
@@ -10,12 +11,15 @@ namespace webui.Services
     {
         private readonly IEnumerable<IDynamicContentProvider> providers;
 
-        private readonly IDependencyResolver dependencyResolver;
+        //private readonly IDependencyResolver dependencyResolver;
 
-        public DynamicContentService(IEnumerable<IDynamicContentProvider> providers, IDependencyResolver dependencyResolver)
+        private readonly IServiceProvider _serviceProvider;
+
+        public DynamicContentService(IEnumerable<IDynamicContentProvider> providers, IServiceProvider serviceProvider)
         {
             this.providers = providers;
-            this.dependencyResolver = dependencyResolver;
+            //this.dependencyResolver = dependencyResolver;
+            _serviceProvider = serviceProvider;
         }
 
         public dynamic GetData(SiteContent content)
@@ -25,9 +29,7 @@ namespace webui.Services
 
         private IDynamicContentProvider ProviderFactory(SiteContent content)
         {
-            
-            
-            return providers.FirstOrDefault(service => service.CanProviderData(content)) ?? dependencyResolver.GetService<NullDynamicContentProvider>();
+            return (providers.FirstOrDefault(service => service.CanProviderData(content)) ?? (IDynamicContentProvider)_serviceProvider.GetService(typeof(IDynamicContentProvider)));
         }
     }
 

@@ -8,6 +8,6 @@ namespace webui.Interfaces
 
         Marketplace GetMarketplaceById(int marketPlaceId);
 
-
+        Menu GetMenuByName(int marketPlaceId, string menuName);
     }
 }

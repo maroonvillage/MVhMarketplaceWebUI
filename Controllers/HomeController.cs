@@ -38,14 +38,21 @@ namespace webui.Controllers
                 x.PageTitle = "MV Hair - Home Page";
                 
 
-            },serviceProvider: _service);
+            });
 
             return View(model);
         }
 
         public IActionResult Privacy()
         {
-            return View();
+            HomeModel model = CreateModel<HomeModel>(page: SitePageType.Home, action: x =>
+            {
+                x.PageTitle = "MV Hair - Privacy Page";
+
+
+            });
+
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

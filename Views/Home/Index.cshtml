@@ -1,14 +1,16 @@
-﻿@using webui.Extensions
+﻿@using webui.Interfaces
+@inject IContentHelperService contentHelperService
 @model HomeModel
 @{
     ViewData["Title"] = Model.PageTitle;
+    
 }
 
 <div class="page-header" data-parallax="true" style="background-image: url('../../templates/paperkit2/img/daniel-olahh.jpg');">
     <div class="filter"></div>
     <div class="container">
         <div class="motto text-center">
-            <h1>@Html.SiteContentBlock("HeaderText")</h1>
+            <h2>@await contentHelperService.SiteContentBlock("HeaderText", Model, Html)</h2>
             <h3>Start designing your landing page here.</h3>
             <br />
             <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="btn btn-outline-neutral btn-round"><i class="fa fa-play"></i>Watch video</a>

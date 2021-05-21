@@ -1,10 +1,10 @@
-﻿using webui.Data;
+﻿using webcoreapp.Enumerators;
 using webui.Interfaces;
 using webui.Models;
 
 namespace webui.Services
 {
-    public class MarketplaceService : IMarketplaceService
+    public class MarketplaceService : IMarketplaceService, IDynamicContentProvider
     { 
         private readonly IMarketplaceRepository _marketplaceRepository;
         public MarketplaceService(IMarketplaceRepository marketplaceRepository)
@@ -27,5 +27,35 @@ namespace webui.Services
         {
             return new Marketplace();
         }
+
+        public Menu GetMenuByName(int marketPlaceId, string menuName)
+        {
+            return _marketplaceRepository.GetMenuByName(marketPlaceId, menuName);
+        }
+
+
+        public bool CanProviderData(SiteContent siteContent)
+        {
+            switch (siteContent.ContentType)
+            {
+                case DynamicContentType.Menu:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+
+        public dynamic GetData(SiteContent siteContent)
+        {
+            switch (siteContent.ContentType)
+            {
+                case DynamicContentType.Menu:
+                    return GetMenuByName(siteContent.MarketplaceId, siteContent.ContentName);
+                default:
+                    return false;
+            }
+        }
+
     }
 }

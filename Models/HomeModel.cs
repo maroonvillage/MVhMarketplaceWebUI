@@ -15,11 +15,6 @@ namespace webui.Models
 
         }
 
-        public bool HasServiceProvider()
-        {
-            return (ServiceProvider != null);
-        }
-
 
     }
 }

@@ -70,12 +70,12 @@ namespace webui.Models
 
         public Marketplace Marketplace { get { return _marketPlace ?? (_marketPlace = new Marketplace { MarketplaceId = -1 }); } set { _marketPlace = value; } }
 
-        public IServiceProvider ServiceProvider
+        //public IServiceProvider ServiceProvider
 
-        {
-            get { return _serviceProvider; }
-            set { _serviceProvider = value; }
+        //{
+        //    get { return _serviceProvider; }
+        //    set { _serviceProvider = value; }
 
-        }
+        //}
     }
 }

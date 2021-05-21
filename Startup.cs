@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
-using webui.Services;
 
 namespace webui
 {
@@ -56,6 +55,9 @@ namespace webui
             services.AddControllersWithViews();
 
             services.RegisterServices();
+
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
