@@ -15,6 +15,7 @@ namespace webui.Models
         public int? SequenceNumber { get; set; }
         public int? WebsiteId { get; set; }
         public BlockImage BlockImage { get; set; }
+        public SiteLink SiteLink { get; set; }
 
     }
 }

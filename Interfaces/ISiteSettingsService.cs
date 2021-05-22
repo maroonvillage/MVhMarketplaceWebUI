@@ -8,6 +8,7 @@ namespace webui.Interfaces
     {
 
         IDictionary<string, SiteSettings> GetSiteSettingsByMarketplaceId(int marketPlaceId);
-        IList<SiteImage> GetSiteImagesByMarketplaceId(int marketPlaceId);
+        IList<SiteImage> GetSiteImagesByMarketplaceId(int marketPlaceId, int blockId);
+        IList<SiteLink> GetSiteLinksByMarketplaceId(int marketPlaceId, int blockId);
     }
 }
