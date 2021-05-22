@@ -1,0 +1,24 @@
+﻿@using webui.Interfaces
+@inject IContentHelperService contentHelperService
+@model DefaultModel
+@{
+    var links = (IList<SiteLink>)Model.Data;
+
+
+    var linkTitle = links != null ? links[0].Title : "mvHair";
+    var toolTip = links != null ? links[0].ToolTip : "tooltip";
+    var target = links != null ? links[0].Target : "_blank";
+    var name = links != null ? links[0].LinkName : "mvhair";
+    var url = links != null ? links[0].SiteImage.ImageUrl : "#";
+
+}
+<div class="navbar-translate">
+    <a class="navbar-brand" href="@url" rel="tooltip" title="@name" data-placement="bottom" target="@target">
+       @linkTitle
+    </a>
+    <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-bar bar1"></span>
+        <span class="navbar-toggler-bar bar2"></span>
+        <span class="navbar-toggler-bar bar3"></span>
+    </button>
+</div>
