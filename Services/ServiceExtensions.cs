@@ -36,7 +36,6 @@ namespace Microsoft.Extensions.DependencyInjection
               {
                 //IServiceProvider sp = ctx.GetRequiredService<IServiceProvider>();
                 IServiceProvider sp = ctx.GetService<IServiceProvider>();
-                //IHttpHelper helper = 
 
                   return new ContentHelperService(sp);
               });
