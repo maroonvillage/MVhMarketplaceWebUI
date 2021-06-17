@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using webui.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
+using webui.Identity.Data;
 
 namespace webui
 {
@@ -45,18 +45,39 @@ namespace webui
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
             services.AddControllersWithViews();
+            services.AddRazorPages();
+
+            //NOTE: the appid/secret is saved to the secret store using the commands ...
+            //dotnet user-secrets set "Authentication:Facebook:AppId" "<app-id>"
+            //dotnet user-secrets set "Authentication:Facebook:AppSecret" "<app-secret>"
+            //dotnet user-secrets set "Authentication:Twitter:ConsumerAPIKey" "<consumer-api-key>"
+            //dotnet user-secrets set "Authentication:Twitter:ConsumerSecret" "<consumer-secret>"
+            services.AddAuthentication()
+            .AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            })
+             .AddTwitter(twitterOptions =>
+             {
+                 twitterOptions.ConsumerKey = Configuration["Authentication:Twitter:ConsumerAPIKey"];
+                 twitterOptions.ConsumerSecret = Configuration["Authentication:Twitter:ConsumerSecret"];
+                 twitterOptions.RetrieveUserDetails = true;
+             });
+            services.AddHttpClient();
+
 
             services.RegisterServices();
-
-            
 
         }
 
@@ -83,6 +104,10 @@ namespace webui
             app.UseAuthorization();
 
             app.UseSession();
+
+            //UseHsts is not required but is recommended.
+            //
+            app.UseHsts();
 
             app.UseEndpoints(endpoints =>
             {

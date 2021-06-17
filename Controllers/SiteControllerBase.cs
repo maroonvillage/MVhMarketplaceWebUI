@@ -15,7 +15,7 @@ namespace webui.Controllers
     {
         public const string SessionKeyName = "_Marketplace";
 
-        protected Data.ApplicationDbContext _context;
+        //protected webuiIdentityDbContext _context;
 
         private Marketplace _marketPlace;
         private IMarketplaceService _marketPlaceService;
@@ -35,9 +35,9 @@ namespace webui.Controllers
             }
         }
 
-        public SiteControllerBase(Data.ApplicationDbContext context, IMarketplaceService marketPlaceService, ISiteContentService siteContentService)
+        public SiteControllerBase(IMarketplaceService marketPlaceService, ISiteContentService siteContentService)
         {
-            _context = context;
+            //_context = context;
             _marketPlaceService = marketPlaceService;
             _siteContentService = siteContentService;
         }

@@ -12,14 +12,14 @@ namespace webui.Data
     {
 
         private string _connectionString;
-        private readonly ApplicationDbContext _context;
+        //private readonly webuiIdentityDbContext _context;
 
         private readonly IConfiguration _configuration;
 
-        public MarketplaceRepository(ApplicationDbContext context, IConfiguration configuration)
+        public MarketplaceRepository(IConfiguration configuration)
         {
-            _context = context;
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            //_context = context;
+            _connectionString = configuration.GetConnectionString("ContentConnection");
         }
 
         public Marketplace GetMarketplaceByDomain(string domain)

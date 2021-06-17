@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using webui.Data;
 using webui.Enums;
 using webui.Interfaces;
 using webui.Models;
-using webui.Services;
 
 namespace webui.Controllers
 {
@@ -19,11 +14,11 @@ namespace webui.Controllers
         private readonly IMarketplaceService _marketPlaceService;
         private readonly ISiteContentService _siteContentService;
         private readonly IServiceProvider _service;
-        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger,
+        public HomeController(ILogger<HomeController> logger,
                 IMarketplaceService marketPlaceService, ISiteContentService siteContentService, IServiceProvider serviceProvider) :
-            base(context, marketPlaceService, siteContentService)
+            base(marketPlaceService, siteContentService)
         {
-            _context = context;
+            //_context = context;
             _marketPlaceService = marketPlaceService;
             _siteContentService = siteContentService;
             _service = serviceProvider;

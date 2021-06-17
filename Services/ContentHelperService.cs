@@ -23,7 +23,7 @@ namespace webui.Services
         private const string DefaultFeedPartialViewName = "GenericFeed";
 
 
-        private readonly string _message = "Hello, world from the Content Helper Service.";
+        //private readonly string _message = "Hello, world from the Content Helper Service.";
 
         private IHtmlHelper _htmlHelper;
         private readonly IServiceProvider _serviceProvider;
