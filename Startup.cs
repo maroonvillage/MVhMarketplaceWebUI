@@ -105,9 +105,6 @@ namespace webui
 
             app.UseSession();
 
-            //UseHsts is not required but is recommended.
-            //
-            app.UseHsts();
 
             app.UseEndpoints(endpoints =>
             {

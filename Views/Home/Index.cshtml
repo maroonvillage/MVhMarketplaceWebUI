@@ -4,7 +4,9 @@
 @{
     ViewData["Title"] = Model.PageTitle;
 }
-@await contentHelperService.SiteContentBlock("HeaderImage",Model,Html) 
+@await contentHelperService.SiteContentBlock("HeaderImage", Model, Html)
+@await Html.PartialAsync("_Header");
+
 <div class="main">
     <div class="section text-center">
         <div class="container">

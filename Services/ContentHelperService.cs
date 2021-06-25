@@ -170,7 +170,7 @@ namespace webui.Services
         {
             //dynamic feed = null;/// DependencyResolver.Current.GetService<IFeedService>().GetFeed(content);
 
-            //ddynamic feedSvc = content.ServiceProvider.GetService(typeof(IFeedService));
+            //dynamic feedSvc = content.ServiceProvider.GetService(typeof(IFeedService));
 
             //dynamic serviceProvider = _serviceCollection.BuildServiceProvider();
 
