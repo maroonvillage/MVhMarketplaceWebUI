@@ -69,12 +69,6 @@ namespace webui.Areas.Identity.Pages.Account
 
             ReturnUrl = returnUrl;
 
-            //LocalRedirect(returnUrl);
-
-            //RedirectToPage("/Login", new { area = "Identity" });
-
-            //eturn Page();
-
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

@@ -11,6 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection RegisterServices(
             this IServiceCollection services)
         {
+            services.AddScoped<IEmailService, EmailService>();
             services.AddTransient<IMarketplaceService, MarketplaceService>();
             services.AddTransient<ISiteContentService, SiteContentService>();
             services.AddTransient<ISiteSettingsService, SiteSettingsService>();
