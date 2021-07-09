@@ -2,10 +2,8 @@
 @model webui.Areas.Identity.Pages.Account.RegisterModel
 @{ ViewData["Title"] = "Register"; }
 
-<h1>@ViewData["Title"]</h1>
-
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8 ml-auto mr-auto">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Create a new account.</h4>
             <hr />
@@ -28,7 +26,7 @@
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
-    <div class="col-md-6 col-md-offset-2">
+    <div class="col-md-8 ml-auto mr-auto">
         <section>
             <h4>Use another service to register.</h4>
             <hr />
@@ -42,15 +40,15 @@
     </div> }
 else
 {
-<form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-    <div>
-        <p>
-            @foreach (var provider in Model.ExternalLogins)
-            {
-<button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>}
-        </p>
-    </div>
-</form> } }
+    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+        <div>
+            <p>
+                @foreach (var provider in Model.ExternalLogins)
+                {
+    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>}
+            </p>
+        </div>
+    </form> } }
         </section>
     </div>
 </div>

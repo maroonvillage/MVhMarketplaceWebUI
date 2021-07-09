@@ -44,7 +44,7 @@ namespace webui.Services
             return await html.PartialAsync("_Testone.cshtml");
         }
 
-        public async Task<IHtmlContent> SiteContentBlock(string key, DefaultModel model, IHtmlHelper htmlHelper)
+        public async Task<IHtmlContent> SiteContentBlock(string key, IPageModel model, IHtmlHelper htmlHelper)
         {
 
             if(htmlHelper == null) return new HtmlString(NoHtmlContextFound);
@@ -67,7 +67,7 @@ namespace webui.Services
         }
 
 
-        public async Task<IHtmlContent> SiteContent(SiteContent content, DefaultModel model)// where T : DefaultModel
+        public async Task<IHtmlContent> SiteContent(SiteContent content, IPageModel model)// where T : DefaultModel
         {
             if ((bool)content.IsFeed)
             {
@@ -101,7 +101,7 @@ namespace webui.Services
             return new HtmlString(contentValue);
         }
 
-        private async Task<IHtmlContent> SiteContentDynamicContent(SiteContent content, DefaultModel model) //where T : DefaultModel
+        private async Task<IHtmlContent> SiteContentDynamicContent(SiteContent content, IPageModel model) //where T : DefaultModel
         {
 
             if (content.ContentType == DynamicContentType.None)
@@ -109,12 +109,6 @@ namespace webui.Services
                 return await PartialAsync(model, content);
             }
 
-            //dynamic data = content.ServiceProvider.GetService(typeof(IDynamicContentService));
-            
-           // ServiceExtensions.GetServiceProvider();
-            //var serviceProvider = _serviceCollection.BuildServiceProvider();
-            
-            //dynamic data2 = ActivatorUtilities.CreateInstance<IDynamicContentService>(serviceProvider);
             dynamic data2 = _serviceProvider.GetRequiredService<IDynamicContentService>().GetData(content);
 
             if (data2 == null)
@@ -141,7 +135,7 @@ namespace webui.Services
         /// <param name="content"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        private async Task<IHtmlContent> PartialAsync(DefaultModel model, SiteContent content) //where T : DefaultModel
+        private async Task<IHtmlContent> PartialAsync(IPageModel model, SiteContent content) //where T : DefaultModel
         {
             var siteContentBlock = model.SiteContent = content;
 
@@ -166,7 +160,7 @@ namespace webui.Services
 
         }
 
-        private async Task<IHtmlContent> SiteContentFeed(DefaultModel model, SiteContent content)
+        private async Task<IHtmlContent> SiteContentFeed(IPageModel model, SiteContent content)
         {
             //dynamic feed = null;/// DependencyResolver.Current.GetService<IFeedService>().GetFeed(content);
 

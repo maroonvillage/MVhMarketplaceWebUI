@@ -14,8 +14,8 @@ namespace webui.Interfaces
 
         // Task<IHtmlContent> SiteContent<T>(SiteContent content, IHtmlHelper<T> html);// where T : DefaultModel;
 
-        Task<IHtmlContent> SiteContentBlock(string key, DefaultModel model, IHtmlHelper html);// where T : DefaultModel;
+        Task<IHtmlContent> SiteContentBlock(string key, IPageModel model, IHtmlHelper html);// where T : DefaultModel;
 
-        Task<IHtmlContent> SiteContent(SiteContent content, DefaultModel model);// where T : DefaultModel;
+        Task<IHtmlContent> SiteContent(SiteContent content, IPageModel model);// where T : DefaultModel;
     }
 }

@@ -5,6 +5,7 @@ namespace webui.Enums
     {
 
         Unknown = -1,
-        Home = 0
+        Home = 1,
+        Login = 2
     }
 }

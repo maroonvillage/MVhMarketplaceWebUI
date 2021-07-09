@@ -18,7 +18,6 @@ namespace webui.Data
 
         public MarketplaceRepository(IConfiguration configuration)
         {
-            //_context = context;
             _connectionString = configuration.GetConnectionString("ContentConnection");
         }
 

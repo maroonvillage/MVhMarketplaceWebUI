@@ -31,10 +31,12 @@ namespace webui.Services
 
             _configuration = configuration;//configuration.GetConnectionString("DefaultConnection");
 
-            _host = configuration.GetValue<string>("SmtpHost");
-            _port = configuration.GetValue<int>("SmtpPort");
-            _smtpUserName = configuration.GetValue<string>("SmtpUser");
-            _smptPassword = configuration.GetValue<string>("SmtpPassword");
+
+            _host = configuration.GetSection("SmtpSettings").GetValue<string>("Host");
+            //_host = configuration.GetValue<string>("SmtpHost");
+            _port = configuration.GetSection("SmtpSettings").GetValue<int>("Port");
+            _smtpUserName = configuration.GetSection("SmtpSettings").GetValue<string>("SmtpUser");
+            _smptPassword = configuration.GetSection("SmtpSettings").GetValue<string>("SmtpPassword");
         }
 
         public async Task Send(string from, string to, string subject, string html)

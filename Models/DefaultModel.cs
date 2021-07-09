@@ -5,11 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Dynamic;
 using System.Security.Principal;
 using webui.Enums;
+using webui.Interfaces;
 
 namespace webui.Models
 {
     [NotMapped]
-    public class DefaultModel : DynamicObject
+    public class DefaultModel : DynamicObject, IPageModel
     {
         private Marketplace _marketPlace;
         private SitePageType _page = SitePageType.Unknown;
@@ -17,10 +18,16 @@ namespace webui.Models
         private IList<string> _validationMessages;
         private IDictionary<string, SiteContent> _siteContentBlock;
         private SiteSettings _siteSettings;
-        public SiteContent SiteContent { get; set; }
+        
         private readonly IConfiguration _configuration;
         private dynamic _data;
         private IServiceProvider _serviceProvider;
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public SiteContent SiteContent { get; set; }
 
         /// <summary>
         /// 

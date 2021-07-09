@@ -31,7 +31,6 @@ namespace webui.Controllers
             HomeModel model = CreateModel<HomeModel>(page: SitePageType.Home, action: x =>
             {
                 x.PageTitle = "MV Hair - Home Page";
-                
 
             });
 
@@ -43,8 +42,6 @@ namespace webui.Controllers
             HomeModel model = CreateModel<HomeModel>(page: SitePageType.Home, action: x =>
             {
                 x.PageTitle = "MV Hair - Privacy Page";
-
-
             });
 
             return View(model);

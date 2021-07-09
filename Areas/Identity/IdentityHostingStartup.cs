@@ -21,6 +21,8 @@ namespace webui.Areas.Identity
 
                 services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+                //services.AddSession()
             });
         }
     }

@@ -1,52 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using webui.Common;
 using webui.Enums;
 using webui.Extensions;
 using webui.Interfaces;
 using webui.Models;
-using webui.Services;
 
-namespace webui.Controllers
+namespace webui.Areas
 {
-    public class SiteControllerBase : Controller, IModelBuilder
+    public class RazorBasePageModel : PageModel, IModelBuilder
     {
-        public const string SessionKeyName = "_Marketplace";
-
-        //protected webuiIdentityDbContext _context;
-
         private Marketplace _marketPlace;
         private IMarketplaceService _marketPlaceService;
         private ISiteContentService _siteContentService;
+
+
+       public RazorBasePageModel(IMarketplaceService marketPlaceService, ISiteContentService siteContentService)
+        {
+            //_context = context;
+            _marketPlaceService = marketPlaceService;
+            _siteContentService = siteContentService;
+
+        }
 
         public Marketplace Marketplace
         {
             get
             {
-                return _marketPlace ?? HttpContext.Session.Get<Marketplace>(SessionKeyName) ?? new Marketplace();
+                return _marketPlace ?? HttpContext.Session.Get<Marketplace>(WebProperties.SessionKeyName) ?? new Marketplace();
             }
 
             set
             {
                 _marketPlace = value;
-                HttpContext.Session.Set<Marketplace>(SessionKeyName, _marketPlace);
+                HttpContext.Session.Set<Marketplace>(WebProperties.SessionKeyName, _marketPlace);
             }
         }
 
-        public SiteControllerBase(IMarketplaceService marketPlaceService, ISiteContentService siteContentService)
+        public void Initialize()
         {
-            //_context = context;
-            _marketPlaceService = marketPlaceService;
-            _siteContentService = siteContentService;
-        }
-
-
-        public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
-        {
-            var marketPlaceIdCookie = HttpContext.Request.Cookies["MarketplaceId"];
-
+            var marketPlaceIdCookie = HttpContext != null ? HttpContext.Request.Cookies["MarketplaceId"] : null;
+            
             var marketPlaceId = -1;
             if (marketPlaceIdCookie != null)
             {
@@ -60,7 +56,7 @@ namespace webui.Controllers
                 Response.Redirect("/error/marketplace-not-configured");
                 return;
             }
-           
+
 
         }
 
@@ -86,7 +82,7 @@ namespace webui.Controllers
             {
                 if (string.IsNullOrWhiteSpace(pageMachineName))
                 {
-                    pageMachineName = GetType().Name.Replace("Controller", string.Empty);
+                    pageMachineName = GetType().Name.Replace("Model", string.Empty);
                 }
 
                 model.SiteContentBlock = GetSiteContent(pageMachineName);
@@ -109,9 +105,11 @@ namespace webui.Controllers
         {
             if (string.IsNullOrWhiteSpace(pageMachineName))
             {
-                pageMachineName = GetType().Name.Replace("Controller", string.Empty);
+                pageMachineName = GetType().Name.Replace("Model", string.Empty);
             }
             return _siteContentService.GetSiteContentDictionary(Marketplace, pageMachineName);
         }
+
+
     }
 }

@@ -49,7 +49,7 @@ namespace webui.Data
                         [dbo].[TemplateBlocks] TB
                         INNER JOIN [dbo].[Blocks] b WITH (NOLOCK)
                             ON TB.BlockId = b.BlockId
-                        WHERE S.MarketplaceId = @marketplace_id AND S.BlockId = TB.BlockId
+                        WHERE TB.PageId = p.PageId  AND S.MarketplaceId = @marketplace_id AND S.BlockId = TB.BlockId
                         AND p.PageMachineName = @page_machine_name AND T.TemplateMachineName = @template_machine_name;";
 
             using (var connection = new SqlConnection(_connectionString))
