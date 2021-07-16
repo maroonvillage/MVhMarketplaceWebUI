@@ -29,13 +29,12 @@ namespace webui.Services
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            _configuration = configuration;//configuration.GetConnectionString("DefaultConnection");
+            _configuration = configuration;
 
 
             _host = configuration.GetSection("SmtpSettings").GetValue<string>("Host");
-            //_host = configuration.GetValue<string>("SmtpHost");
             _port = configuration.GetSection("SmtpSettings").GetValue<int>("Port");
-            _smtpUserName = configuration.GetSection("SmtpSettings").GetValue<string>("SmtpUser");
+            _smtpUserName = configuration.GetSection("SmtpSettings").GetValue<string>("SmtpUserName");
             _smptPassword = configuration.GetSection("SmtpSettings").GetValue<string>("SmtpPassword");
         }
 

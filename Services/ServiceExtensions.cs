@@ -24,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IDynamicContentProvider, SiteSettingsService>();
 
             // Add all other services here.
-            _ = services.AddTransient<IDynamicContentService, DynamicContentService>((dcx) =>
+            _ = services.AddSingleton<IDynamicContentService, DynamicContentService>((dcx) =>
               {
                   IServiceProvider sp = dcx.GetService<IServiceProvider>();
                   IEnumerable<IDynamicContentProvider> providers = sp.GetServices<IDynamicContentProvider>();
@@ -33,7 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
               });
 
-            _ = services.AddTransient<IContentHelperService, ContentHelperService>((ctx) =>
+            _ = services.AddSingleton<IContentHelperService, ContentHelperService>((ctx) =>
               {
                 //IServiceProvider sp = ctx.GetRequiredService<IServiceProvider>();
                 IServiceProvider sp = ctx.GetService<IServiceProvider>();

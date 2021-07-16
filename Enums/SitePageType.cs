@@ -6,6 +6,8 @@ namespace webui.Enums
 
         Unknown = -1,
         Home = 1,
-        Login = 2
+        Login = 2,
+        Register = 4,
+        RegisterConfirmation = 5
     }
 }

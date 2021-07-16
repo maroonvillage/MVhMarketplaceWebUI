@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using webui.Common;
 using webui.Enums;
@@ -39,6 +41,14 @@ namespace webui.Areas
             }
         }
 
+        public async override Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context,
+                                                 PageHandlerExecutionDelegate next)
+        {
+            // Do post work.
+            Initialize();
+            await next.Invoke();
+        }
+
         public void Initialize()
         {
             var marketPlaceIdCookie = HttpContext != null ? HttpContext.Request.Cookies["MarketplaceId"] : null;
@@ -46,7 +56,7 @@ namespace webui.Areas
             var marketPlaceId = -1;
             if (marketPlaceIdCookie != null)
             {
-                int.TryParse(marketPlaceIdCookie, out marketPlaceId);
+                _ = int.TryParse(marketPlaceIdCookie, out marketPlaceId);
             }
             var domain = HttpContext.Request.Host.Value;
             Marketplace = marketPlaceId < 0 ? _marketPlaceService.GetMarketplaceByDomain(domain) : _marketPlaceService.GetMarketplaceById(marketPlaceId);
@@ -77,7 +87,7 @@ namespace webui.Areas
             // the name of the controller
 
             //model.Page = page ?? this.ToPage();
-            model.Page = page ?? SitePageType.Unknown;
+            model.SitePage = page ?? SitePageType.Unknown;
             if (model.SiteContentBlock == null || model.SiteContentBlock.Count == 0)
             {
                 if (string.IsNullOrWhiteSpace(pageMachineName))
@@ -107,6 +117,7 @@ namespace webui.Areas
             {
                 pageMachineName = GetType().Name.Replace("Model", string.Empty);
             }
+
             return _siteContentService.GetSiteContentDictionary(Marketplace, pageMachineName);
         }
 

@@ -13,7 +13,7 @@ namespace webui.Models
     public class DefaultModel : DynamicObject, IPageModel
     {
         private Marketplace _marketPlace;
-        private SitePageType _page = SitePageType.Unknown;
+        private SitePageType _sitePage = SitePageType.Unknown;
         private string _pageTitle;
         private IList<string> _validationMessages;
         private IDictionary<string, SiteContent> _siteContentBlock;
@@ -43,7 +43,7 @@ namespace webui.Models
         /// <summary>
         /// Page to be displayed
         /// </summary>
-        public SitePageType Page { get { return _page; } set { _page = value; } }
+        public SitePageType SitePage { get { return _sitePage; } set { _sitePage = value; } }
 
         /// <summary>
         /// Title for the page to be rendered inside &lt;title&gt;&lt;/title&gt;

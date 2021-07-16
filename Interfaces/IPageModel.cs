@@ -13,7 +13,7 @@ namespace webui.Interfaces
 
         string ErrorMessage { get; set; }
 
-        SitePageType Page { get; set; }
+        SitePageType SitePage { get; set; }
 
         string PageTitle { get; set; }
 

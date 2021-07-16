@@ -183,6 +183,7 @@ namespace webui.Data
                            bl.BlockId ,
                            bl.LinkId ,
                            sl.LinkName ,
+                           sl.Url,
                            sl.Target ,
                            sl.Title ,
                            sl.ToolTip ,
@@ -230,6 +231,7 @@ namespace webui.Data
                             ToolTip = reader["ToolTip"] != DBNull.Value ? Convert.ToString(reader["ToolTip"]) : null,
                             Title = reader["Title"] != DBNull.Value ? Convert.ToString(reader["Title"]) : null,
                             Target = reader["Target"] != DBNull.Value ? Convert.ToString(reader["Target"]) : null,
+                            Url = reader["Url"] != DBNull.Value ? Convert.ToString(reader["Url"]) : null,
                             WebsiteId = Convert.ToInt32(reader["WebsiteId"]),
 
                         };
@@ -242,6 +244,7 @@ namespace webui.Data
                         };
                         var siteImage = new SiteImage
                         {
+                            SiteImageId = reader["ImageId"] != DBNull.Value ? Convert.ToInt32(reader["ImageId"]) : -1,
                             FileName = Convert.ToString(reader["FileName"]),
                             ImageUrl = Convert.ToString(reader["ImageUrl"]),
                             SequenceNumber = reader["SequenceNumber"] != DBNull.Value ? Convert.ToInt32(reader["SequenceNumber"]) : null,

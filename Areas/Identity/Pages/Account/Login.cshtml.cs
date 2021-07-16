@@ -20,6 +20,7 @@ namespace webui.Areas.Identity.Pages.Account
     public class LoginModel : RazorBasePageModel, IPageModel
     {
         private dynamic _data;
+        private SitePageType _page = SitePageType.Unknown;
         private IDictionary<string, SiteContent> _siteContentBlock;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -29,7 +30,8 @@ namespace webui.Areas.Identity.Pages.Account
 
         public LoginModel(SignInManager<IdentityUser> signInManager,
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager, IMarketplaceService marketPlaceService,
+            UserManager<IdentityUser> userManager,
+            IMarketplaceService marketPlaceService,
             ISiteContentService siteContentService) :
             base(marketPlaceService, siteContentService)
         {
@@ -51,7 +53,8 @@ namespace webui.Areas.Identity.Pages.Account
         [TempData]
         public string ErrorMessage { get; set; }
         public dynamic Data { get { return _data ?? (_data = new ExpandoObject()); } set { _data = value; } }
-        SitePageType IPageModel.Page { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        SitePageType IPageModel.SitePage { get { return _page; } set { _page = value; } }
+
         public string PageTitle { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public string MarketplaceLogoImagePath => throw new NotImplementedException();
@@ -59,7 +62,7 @@ namespace webui.Areas.Identity.Pages.Account
         IPrincipal IPageModel.User { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IDictionary<string, SiteContent> SiteContentBlock { get { return _siteContentBlock ?? new Dictionary<string, SiteContent>(); } set { _siteContentBlock = value; } }
 
-        public SiteContent SiteContent {  get; set; }
+        public SiteContent SiteContent { get; set; }
         public class InputModel
         {
             [Required]
@@ -77,15 +80,14 @@ namespace webui.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
-
-            Initialize();
-
             var model = CreateModel<DefaultModel>(page: SitePageType.Login, action: x =>
             {
                 x.PageTitle = "MV Hair - Login Page";
 
             });
 
+            //this.SiteContent = model.SiteContent;
+            this.SiteContentBlock = model.SiteContentBlock;
             this.SiteContent = model.SiteContent;
 
             if (!string.IsNullOrEmpty(ErrorMessage))
@@ -102,9 +104,7 @@ namespace webui.Areas.Identity.Pages.Account
             
             ReturnUrl = returnUrl;
 
-           
-
-            return Page();
+           return Page();
 
         }
 

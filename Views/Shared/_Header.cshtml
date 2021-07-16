@@ -2,16 +2,7 @@
 @inject IContentHelperService contentHelperService
 @model IPageModel
 <!-- Navbar -->
-@{
-    
-    var sc = Model.SiteContent;
-var className = "transparent";
-    @*if (Model.SiteContent.SitePage.PageMachineName != "Home")
-        {
-            className = "default";
-        }*@
-}
-<nav class="navbar navbar-expand-lg fixed-top navbar-@className" color-on-scroll="300">
+<nav class="navbar navbar-expand-lg fixed-top navbar-default" color-on-scroll="300">
     <div class="container">
         @await contentHelperService.SiteContentBlock("HeaderLogo", Model, Html)
         <!-- Nav bar goes here -->
@@ -19,3 +10,4 @@ var className = "transparent";
     </div>
     @await Html.PartialAsync("_LoginPartial");
 </nav>
+<br />

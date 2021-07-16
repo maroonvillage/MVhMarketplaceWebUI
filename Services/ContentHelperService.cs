@@ -137,7 +137,7 @@ namespace webui.Services
         /// <returns></returns>
         private async Task<IHtmlContent> PartialAsync(IPageModel model, SiteContent content) //where T : DefaultModel
         {
-            var siteContentBlock = model.SiteContent = content;
+            _ = model.SiteContent = content;
 
             try
             {

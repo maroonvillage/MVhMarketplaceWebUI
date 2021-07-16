@@ -23,11 +23,6 @@ namespace webui.Data
 
         public IEnumerable<SiteContent> GetSiteContentDictionaryByMarketplaceId(int marketPlaceId, string templateMachineName, string pageMachineName)
         {
-            IDictionary<string, SiteContent> siteContentDictionary = null;
-
-            Marketplace marketPlace = null;
-            MarketplaceSetting marketplaceSetting = null;
-            Template template = null;
             var sql = @"SELECT 
                         S.MarketplaceId, 
                         TB.PageId, 
@@ -52,53 +47,51 @@ namespace webui.Data
                         WHERE TB.PageId = p.PageId  AND S.MarketplaceId = @marketplace_id AND S.BlockId = TB.BlockId
                         AND p.PageMachineName = @page_machine_name AND T.TemplateMachineName = @template_machine_name;";
 
-            using (var connection = new SqlConnection(_connectionString))
+            using var connection = new SqlConnection(_connectionString);
+            var command = new SqlCommand(sql, connection)
             {
-                var command = new SqlCommand(sql, connection)
-                {
-                    CommandType = System.Data.CommandType.Text
-                };
-                command.Parameters.AddWithValue("@marketplace_id", marketPlaceId);
-                command.Parameters.AddWithValue("@page_machine_name", pageMachineName);
-                command.Parameters.AddWithValue("@template_machine_name", templateMachineName);
-                connection.Open();
-                using (var reader = command.ExecuteReader())
-                {
+                CommandType = System.Data.CommandType.Text
+            };
+            command.Parameters.AddWithValue("@marketplace_id", marketPlaceId);
+            command.Parameters.AddWithValue("@page_machine_name", pageMachineName);
+            command.Parameters.AddWithValue("@template_machine_name", templateMachineName);
+            connection.Open();
+            using (var reader = command.ExecuteReader())
+            {
 
-                    while (reader.Read())
+                while (reader.Read())
+                {
+                    yield return new SiteContent
                     {
-                        yield return new SiteContent
-                        {
-                            MarketplaceId = Convert.ToInt32(reader["MarketplaceId"]),
-                            PageId = Convert.ToInt32(reader["PageId"]),
-                            ContentName = reader["ContentName"].ToString(),
-                            ContentValue = reader["ContentValue"].ToString(),
-                            IsFeed = reader["IsFeed"] != null && Convert.ToBoolean(reader["IsFeed"]),
-                            ContentType = (DynamicContentType) Convert.ToInt32(reader["DynamicContentType"]),
-                            Block =
+                        MarketplaceId = Convert.ToInt32(reader["MarketplaceId"]),
+                        PageId = Convert.ToInt32(reader["PageId"]),
+                        ContentName = reader["ContentName"].ToString(),
+                        ContentValue = reader["ContentValue"].ToString(),
+                        IsFeed = reader["IsFeed"] != null && Convert.ToBoolean(reader["IsFeed"]),
+                        ContentType = (DynamicContentType)Convert.ToInt32(reader["DynamicContentType"]),
+                        Block =
                             {
                                 BlockId = Convert.ToInt32(reader["BlockId"]),
                                 BlockMachineName = reader["BlockMachineName"].ToString()
                             },
-                            Template =
+                        Template =
                             {
                                 TemplateId = Convert.ToInt32(reader["TemplateId"]),
                                 TemplateMachineName = reader["TemplateMachineName"].ToString(),
                                 TemplateName = reader["TemplateName"].ToString()
                             },
-                            SitePage =
+                        SitePage =
                             {
                                 PageId = Convert.ToInt32(reader["PageId"]),
                                 PageMachineName = reader["PageMachineName"].ToString(),
                                 PageTitle = reader["PageTitle"].ToString(),
                             }
-                        };
+                    };
 
-                    }
                 }
             }
 
-           // return null;
+            // return null;
         }
         public IDictionary<string, SiteContent> GetSiteContentDictionary(Marketplace marketPlace,string pageMachineName)
         {

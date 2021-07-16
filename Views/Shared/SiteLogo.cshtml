@@ -1,15 +1,23 @@
 ﻿@using webui.Interfaces
 @inject IContentHelperService contentHelperService
-@model DefaultModel
+@model IPageModel
 @{
     var links = (IList<SiteLink>)Model.Data;
 
 
     var linkTitle = links != null ? links[0].Title : "mvHair";
     var toolTip = links != null ? links[0].ToolTip : "tooltip";
-    var target = links != null ? links[0].Target : "_blank";
+    var target = links != null ? links[0].Target : "_self";
     var name = links != null ? links[0].LinkName : "mvhair";
-    var url = links != null ? links[0].SiteImage.ImageUrl : "#";
+    var url = string.Empty;
+    if (links[0].SiteImage.SiteImageId == -1)
+    {
+        url = links != null ? links[0].Url : "#";
+    }
+    else
+    {
+        url = links != null ? links[0].SiteImage.ImageUrl : "#";
+    }
 
 }
 <div class="navbar-translate">

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -12,30 +14,57 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using webui.Enums;
+using webui.Interfaces;
+using webui.Models;
 using webui.Services;
 
 namespace webui.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class RegisterModel : PageModel
+    public class RegisterModel : RazorBasePageModel, IPageModel
     {
+        private dynamic _data;
+        private SitePageType _page = SitePageType.Unknown;
+        private IDictionary<string, SiteContent> _siteContentBlock;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailService _emailService;
+        private IMarketplaceService _marketPlaceService;
+        private ISiteContentService _siteContentService;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-             IEmailService emailService)
+            IEmailService emailService,
+            IMarketplaceService marketPlaceService,
+            ISiteContentService siteContentService) :
+            base(marketPlaceService, siteContentService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailService = emailService;
+            _marketPlaceService = marketPlaceService;
+            _siteContentService = siteContentService;
+
         }
 
+        [TempData]
+        public string ErrorMessage { get; set; }
+        public dynamic Data { get { return _data ?? (_data = new ExpandoObject()); } set { _data = value; } }
+        SitePageType IPageModel.SitePage { get { return _page; } set { _page = value; } }
+
+        public string PageTitle { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public string MarketplaceLogoImagePath => throw new NotImplementedException();
+
+        IPrincipal IPageModel.User { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IDictionary<string, SiteContent> SiteContentBlock { get { return _siteContentBlock ?? new Dictionary<string, SiteContent>(); } set { _siteContentBlock = value; } }
+
+        public SiteContent SiteContent { get; set; }
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -66,6 +95,20 @@ namespace webui.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+
+            var model = CreateModel<DefaultModel>(page: SitePageType.Register, action: x =>
+            {
+                x.PageTitle = "MV Hair - Register Page";
+
+            });
+
+            this.SiteContentBlock = model.SiteContentBlock;
+
+            if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                ModelState.AddModelError(string.Empty, ErrorMessage);
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

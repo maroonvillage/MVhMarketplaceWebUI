@@ -45,6 +45,7 @@ namespace webui.Controllers
 
         public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
         {
+
             var marketPlaceIdCookie = HttpContext.Request.Cookies["MarketplaceId"];
 
             var marketPlaceId = -1;
@@ -81,7 +82,7 @@ namespace webui.Controllers
             // the name of the controller
 
             //model.Page = page ?? this.ToPage();
-            model.Page = page ?? SitePageType.Unknown;
+            model.SitePage = page ?? SitePageType.Unknown;
             if (model.SiteContentBlock == null || model.SiteContentBlock.Count == 0)
             {
                 if (string.IsNullOrWhiteSpace(pageMachineName))
