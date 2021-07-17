@@ -32,10 +32,10 @@ namespace webui.Services
             _configuration = configuration;
 
 
-            _host = configuration.GetSection("SmtpSettings").GetValue<string>("Host");
-            _port = configuration.GetSection("SmtpSettings").GetValue<int>("Port");
-            _smtpUserName = configuration.GetSection("SmtpSettings").GetValue<string>("SmtpUserName");
-            _smptPassword = configuration.GetSection("SmtpSettings").GetValue<string>("SmtpPassword");
+            _host = configuration.GetSection("MailSettings").GetSection("SmtpSettings").GetValue<string>("Host");
+            _port = configuration.GetSection("MailSettings").GetSection("SmtpSettings").GetValue<int>("Port");
+            _smtpUserName = configuration.GetSection("MailSettings").GetSection("SmtpSettings").GetValue<string>("SmtpUserName");
+            _smptPassword = configuration.GetSection("MailSettings").GetSection("SmtpSettings").GetValue<string>("SmtpPassword");
         }
 
         public async Task Send(string from, string to, string subject, string html)

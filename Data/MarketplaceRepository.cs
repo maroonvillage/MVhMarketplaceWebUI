@@ -18,14 +18,13 @@ namespace webui.Data
 
         public MarketplaceRepository(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("ContentConnection");
+            _connectionString = configuration["ConnectionStrings:ContentConnection"];
         }
 
         public Marketplace GetMarketplaceByDomain(string domain)
         {
             Marketplace  marketPlace = null;
             MarketplaceSetting marketplaceSetting = null;
-            MarketplaceTheme marketPlaceTheme = null;
             Template template = null;
 
             string sql = @"SELECT 

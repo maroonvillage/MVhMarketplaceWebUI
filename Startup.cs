@@ -19,7 +19,9 @@ namespace webui
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+              
 
+            configuration = configurationBuilder.Build();
             Configuration = configuration;
 
         }
