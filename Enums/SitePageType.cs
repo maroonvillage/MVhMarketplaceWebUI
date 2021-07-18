@@ -8,6 +8,7 @@ namespace webui.Enums
         Home = 1,
         Login = 2,
         Register = 4,
-        RegisterConfirmation = 5
+        RegisterConfirmation = 5,
+        ConfirmEmail = 6
     }
 }

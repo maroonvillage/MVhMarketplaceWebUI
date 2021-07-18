@@ -103,7 +103,7 @@ namespace webui.Areas.Identity.Pages.Account
 
             });
 
-            this.SiteContentBlock = model.SiteContentBlock;
+            SiteContentBlock = model.SiteContentBlock;
 
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
