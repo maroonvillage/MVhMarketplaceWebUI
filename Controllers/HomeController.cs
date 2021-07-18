@@ -37,6 +37,26 @@ namespace webui.Controllers
             return View(model);
         }
 
+        public IActionResult AboutUs()
+        {
+            HomeModel model = CreateModel<HomeModel>(page: SitePageType.Home, action: x =>
+            {
+                x.PageTitle = "MV Hair - About Us Page";
+            });
+
+            return View(model);
+        }
+
+        public IActionResult ContactUs()
+        {
+            HomeModel model = CreateModel<HomeModel>(page: SitePageType.Home, action: x =>
+            {
+                x.PageTitle = "MV Hair - Contact Us Page";
+            });
+
+            return View(model);
+        }
+
         public IActionResult Privacy()
         {
             HomeModel model = CreateModel<HomeModel>(page: SitePageType.Home, action: x =>
