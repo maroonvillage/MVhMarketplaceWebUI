@@ -13,12 +13,12 @@ namespace webui.Services
     {
 
 
-        private readonly ICacheService _memoryCache;
+        //private readonly ICacheService _memoryCache;
         private readonly IMarketplaceRepository _marketplaceRepository;
         private readonly ICacheService _cacheService;
-        public MarketplaceService(ICacheService memoryCache, IMarketplaceRepository marketPlaceRepository)
+        public MarketplaceService(IMarketplaceRepository marketPlaceRepository)
         {
-            _memoryCache = memoryCache;
+            //_memoryCache = memoryCache;
             _marketplaceRepository = marketPlaceRepository;
         }
         /// <summary>
