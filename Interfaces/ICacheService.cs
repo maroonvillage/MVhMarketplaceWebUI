@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 
 namespace webui.Interfaces
 {
-    public interface ICacheService<T>
+    public interface ICacheService
     {
-        T Get(string cacheKey);
-        T Delete(string cacheKey);
-        T Add(string cacheKey, T item);
-        Task<T> AddAsync(string cacheKey, T item);
+        object Get(string cacheKey);
+        object Delete(string cacheKey);
+        object Add(string cacheKey, object item);
+        Task<object> AddAsync(string cacheKey, object item);
         bool Contains(string cacheKey);
 
     }

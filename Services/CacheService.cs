@@ -5,7 +5,7 @@ using webui.Interfaces;
 
 namespace webui.Services
 {
-    public class CacheService<T> : ICacheService<T>
+    public class CacheService : ICacheService
     {
         private readonly IMemoryCache _cache;
 
@@ -15,7 +15,7 @@ namespace webui.Services
         }
 
 
-        public T Get(string cacheKey)
+        public object Get(string cacheKey)
         {
             if (!_cache.TryGetValue(cacheKey, out _))
             {
@@ -35,14 +35,14 @@ namespace webui.Services
         }
 
 
-        public T Delete(string cacheKey)
+        public object Delete(string cacheKey)
         {
 
             return default;
         }
 
 
-        public T Add(string cacheKey, T item)
+        public object Add(string cacheKey, object item)
         {
             var cacheEntry = _cache.GetOrCreate(cacheKey, entry =>
             {
@@ -53,7 +53,7 @@ namespace webui.Services
             return default;
         }
 
-        public async Task<T> AddAsync(string cacheKey, T item)
+        public async Task<object> AddAsync(string cacheKey, object item)
         {
             var cacheEntry = await
                 _cache.GetOrCreateAsync(cacheKey, entry =>
@@ -67,7 +67,7 @@ namespace webui.Services
 
         public bool Contains(string cacheKey)
         {
-            return _ = _cache.TryGetValue<T>(cacheKey, out _);
+            return _ = _cache.TryGetValue(cacheKey, out _);
         }
 
     }

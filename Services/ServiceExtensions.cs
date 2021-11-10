@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.Caching.Memory;
 using webui.Data;
 using webui.Interfaces;
 using webui.Services;
@@ -12,6 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
             this IServiceCollection services)
         {
             services.AddScoped<IEmailService, EmailService>();
+
             services.AddTransient<IMarketplaceService, MarketplaceService>();
             services.AddTransient<ISiteContentService, SiteContentService>();
             services.AddTransient<ISiteSettingsService, SiteSettingsService>();
@@ -22,6 +24,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddTransient<IDynamicContentProvider, MarketplaceService>();
             services.AddTransient<IDynamicContentProvider, SiteSettingsService>();
+            //services.AddTransient<ICacheService, CacheService<T>(IMemoryCache cache);
+
 
             // Add all other services here.
             _ = services.AddSingleton<IDynamicContentService, DynamicContentService>((dcx) =>

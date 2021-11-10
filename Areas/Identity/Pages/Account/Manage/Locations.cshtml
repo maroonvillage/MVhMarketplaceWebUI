@@ -1,0 +1,66 @@
+@page
+@model LocationsModel
+@{
+    ViewData["Title"] = "Manage Locations";
+    ViewData["ActivePage"] = ManageNavPages.Locations;
+}
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="row">
+  <div class="col-md-12">
+    <table>
+      <tr>
+      <th>Location Name</th>
+      <th>Address 1</th>
+       <th>Address 2</th>
+ <th>City</th>
+  <th>State</th>
+ <th>Zip Code</th>
+</tr>
+@foreach (var loc in Model.Locations)
+{
+    var LocationName = loc.LocationName;
+    var addr1 = loc.Address1;
+    var addr2 = loc.Address2;
+    var city = loc.City;
+    var state = loc.State;
+    var zip = loc.ZipCode;
+    <tr>
+        <td>@LocationName</td>
+      <td>@addr1</td>
+       <td>@addr2</td>
+        <td>@city</td>
+ <td>@state</td>
+  <td>State</td>
+ <td>@zip</td>
+    </tr>
+}
+     </table>
+  </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <form id="shop-form" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LocationName"></label>
+                <input asp-for="LocationName" class="form-control" />
+                <label asp-for="Address1"></label>
+                 <input asp-for="Address1" class="form-control" />
+                 <label asp-for="Address2"></label>
+                 <input asp-for="Address2" class="form-control" />
+                <label asp-for="City"></label>
+                <input asp-for="City" class="form-control" />
+                <label asp-for="State"></label>
+                <select name="State" class="form-control" asp-items="Model.Options"></select>
+                <label asp-for="ZipCode"></label>
+                <input asp-for="ZipCode" class="form-control" />
+            </div>
+            <partial name="_Amenities" model="Model.Amenities" /><br />
+            <button id="save-locationinfo-button" type="submit" asp-page-handler="SaveLocation" class="btn btn-primary">Save</button>
+        </form> 
+        </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

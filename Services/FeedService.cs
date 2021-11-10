@@ -10,9 +10,9 @@ namespace webui.Services
 {
     public class FeedService : IFeedService
     {
-        private readonly ICacheService<SyndicationFeed> _cacheService;
+        private readonly ICacheService _cacheService;
 
-        public FeedService(ICacheService<SyndicationFeed> cacheService)
+        public FeedService(ICacheService cacheService)
         {
             _cacheService = cacheService;
         }
@@ -66,7 +66,7 @@ namespace webui.Services
         {
             if (_cacheService.Contains(uri))
             {
-                return _cacheService.Get(uri)  ?? new SyndicationFeed();
+                return (SyndicationFeed)(_cacheService.Get(uri)  ?? new SyndicationFeed());
             }
 
             using (var reader = XmlReader.Create(uri))

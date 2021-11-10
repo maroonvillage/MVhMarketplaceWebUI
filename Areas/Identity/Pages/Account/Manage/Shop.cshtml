@@ -1,0 +1,44 @@
+@page
+@model ShopModel
+@{
+    ViewData["Title"] = "Manage Marketplace Info";
+    ViewData["ActivePage"] = ManageNavPages.Shop;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <form id="shop-form" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ShopName"></label>
+                <input asp-for="ShopName" class="form-control" />
+                <label asp-for="Description"></label>
+                 <input asp-for="Description" class="form-control" /><br />
+                 <label asp-for="IsShopOwner"></label>&nbsp;<br />
+                  <label>Yes&nbsp;</label>@Html.RadioButtonFor(m => m.IsShopOwner, "true", new { @name = "shopOwner" })
+                    <label>No&nbsp;</label>@Html.RadioButtonFor(m => m.IsShopOwner, "false", new { @name = "shopOwner" })
+                    <br />
+                <label asp-for="OwnerFirstName"></label>
+                <input asp-for="OwnerFirstName" class="form-control" />
+                <label asp-for="OwnerLastName"></label>
+                <input asp-for="OwnerLastName" class="form-control" />
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <label asp-for="ShopPhone"></label>
+                <input asp-for="ShopPhone" class="form-control" />
+                <label asp-for="MobilePhone"></label>
+                <input asp-for="MobilePhone" class="form-control" />
+            </div>
+             <partial name="_Styles" model="Model.HairStyles" /><br />
+            <button id="save-shop-button" type="submit" asp-page-handler="SaveShop" class="btn btn-primary">Save</button>
+            
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

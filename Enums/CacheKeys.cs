@@ -49,7 +49,14 @@ namespace webui.Enums
         SiteSettings,
         [Description("Users_{0}")]
         [DefaultValue(240)]
-        Users
+        Users,
+        MarketplaceShops,
+        HairPros,
+        Locations,
+        ShopAmenities,
+        Amenities,
+        ShopHairStyles,
+        HairStyles
 
     }
 }
