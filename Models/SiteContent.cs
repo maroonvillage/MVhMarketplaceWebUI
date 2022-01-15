@@ -9,7 +9,7 @@ namespace webui.Models
     [NotMapped]
     public partial class SiteContent : DefaultModel
     {
-        public int MarketplaceId { get; set; }
+        public string MarketplaceId { get; set; }
         public int PageId { get; set; }
         public string ContentName { get; set; }
         public string ContentValue { get; set; }

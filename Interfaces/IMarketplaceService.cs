@@ -10,9 +10,9 @@ namespace webui.Interfaces
     {
         Marketplace GetMarketplaceByDomain(string domain);
 
-        Marketplace GetMarketplaceById(int marketPlaceId);
+        Marketplace GetMarketplaceById(string marketPlaceId);
 
-        Menu GetMenuByName(int marketPlaceId, string menuName);
+        Menu GetMenuByName(string marketPlaceId, string menuName);
 
         void SaveShopData(ShopModel.InputModel shopModel);
 

@@ -75,7 +75,7 @@ namespace webui.Models
 
         public IDictionary<string, SiteContent> SiteContentBlock { get { return _siteContentBlock ?? new Dictionary<string, SiteContent>(); } set { _siteContentBlock = value; } }
 
-        public Marketplace Marketplace { get { return _marketPlace ?? (_marketPlace = new Marketplace { MarketplaceId = -1 }); } set { _marketPlace = value; } }
+        public Marketplace Marketplace { get { return _marketPlace ?? (_marketPlace = new Marketplace { MarketplaceId = "-1" }); } set { _marketPlace = value; } }
 
         //public IServiceProvider ServiceProvider
 

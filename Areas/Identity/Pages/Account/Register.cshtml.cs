@@ -31,24 +31,24 @@ namespace webui.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailService _emailService;
-        private IMarketplaceService _marketPlaceService;
-        private ISiteContentService _siteContentService;
+        private IMarketplaceNoSqlService _marketPlaceNoSqlService;
+        private ISiteContentNoSqlService _siteContentNoSqlService;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailService emailService,
-            IMarketplaceService marketPlaceService,
-            ISiteContentService siteContentService) :
-            base(marketPlaceService, siteContentService)
+            IMarketplaceNoSqlService marketPlaceNoSqlService,
+            ISiteContentNoSqlService siteContentNoSqlService) :
+            base(marketPlaceNoSqlService, siteContentNoSqlService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailService = emailService;
-            _marketPlaceService = marketPlaceService;
-            _siteContentService = siteContentService;
+            _marketPlaceNoSqlService = marketPlaceNoSqlService;
+            _siteContentNoSqlService = siteContentNoSqlService;
 
         }
 

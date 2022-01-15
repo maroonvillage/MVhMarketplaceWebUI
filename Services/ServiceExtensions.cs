@@ -14,17 +14,18 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped<IEmailService, EmailService>();
 
-            services.AddTransient<IMarketplaceService, MarketplaceService>();
-            services.AddTransient<ISiteContentService, SiteContentService>();
-            services.AddTransient<ISiteSettingsService, SiteSettingsService>();
-            services.AddTransient<ISiteSettingsRepository, SiteSettingsRepository>();
+            services.AddTransient<IMarketplaceNoSqlService, MarketplaceNoSqlService>();
 
-            services.AddTransient<IMarketplaceRepository, MarketplaceRepository>();
-            services.AddTransient<ISiteContentRepository, SiteContentRepository>();
+            services.AddTransient<ISiteContentNoSqlService, SiteContentNoSqlService>();
+            services.AddTransient<ISiteSettingsNoSqlService, SiteSettingsNoSqlService>();
+            services.AddTransient<ISiteSettingsNoSqlRepository, SiteSettingsNoSqlRepository>();
 
-            services.AddTransient<IDynamicContentProvider, MarketplaceService>();
-            services.AddTransient<IDynamicContentProvider, SiteSettingsService>();
-            //services.AddTransient<ICacheService, CacheService<T>(IMemoryCache cache);
+            services.AddTransient<IMarketplaceNoSqlRepository, MarketplaceNoSqlRepository>();
+            services.AddTransient<ISiteContentNoSqlRepository, SiteContentNoSqlRepository>();
+
+            services.AddTransient<IDynamicContentProvider, MarketplaceNoSqlService>();
+            services.AddTransient<IDynamicContentProvider, SiteSettingsNoSqlService>();
+            services.AddTransient<ICacheService, CacheService>();
 
 
             // Add all other services here.

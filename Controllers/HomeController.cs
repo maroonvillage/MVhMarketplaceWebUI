@@ -11,22 +11,22 @@ namespace webui.Controllers
     public class HomeController : SiteControllerBase
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IMarketplaceService _marketPlaceService;
-        private readonly ISiteContentService _siteContentService;
+        private readonly IMarketplaceNoSqlService _marketPlaceNoSqlService;
+        private readonly ISiteContentNoSqlService _siteContentNoSqlService;
         private readonly IServiceProvider _service;
         public HomeController(ILogger<HomeController> logger,
-                IMarketplaceService marketPlaceService, ISiteContentService siteContentService, IServiceProvider serviceProvider) :
-            base(marketPlaceService, siteContentService)
+                IMarketplaceNoSqlService marketPlaceNoSqlService, ISiteContentNoSqlService siteContentNoSqlService, IServiceProvider serviceProvider) :
+            base(marketPlaceNoSqlService, siteContentNoSqlService)
         {
             //_context = context;
-            _marketPlaceService = marketPlaceService;
-            _siteContentService = siteContentService;
+            _marketPlaceNoSqlService = marketPlaceNoSqlService;
+            _siteContentNoSqlService = siteContentNoSqlService;
             _service = serviceProvider;
 
         }
         public IActionResult Index()
         {
-            if (Marketplace.MarketplaceId == 0) return RedirectToAction("Error");
+            if (string.IsNullOrEmpty(Marketplace.MarketplaceId)) return RedirectToAction("Error");
 
             HomeModel model = CreateModel<HomeModel>(page: SitePageType.Home, action: x =>
             {
@@ -71,6 +71,15 @@ namespace webui.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
+            //HomeModel model = CreateModel<HomeModel>(page: SitePageType.Error, action: x =>
+            //{
+            //    x.PageTitle = "MV Hair - Error Page";
+            //});
+
+            //return View(model);
+
+
         }
     }
 }

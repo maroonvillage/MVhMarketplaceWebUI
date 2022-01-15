@@ -9,11 +9,11 @@ namespace webui.Interfaces
     public interface IMarketplaceRepository
     {
         Marketplace GetMarketplaceByDomain(string domain);
-        Marketplace GetMarketplaceById(int marketPlacdId);
-        MarketplaceSetting GetMarketplaceSettingsById(int marketPlaceId);
-        MarketplaceTheme GetThemeByMarketplaceId(int marketPlaceId);
+        Marketplace GetMarketplaceById(string marketPlacdId);
+        MarketplaceSetting GetMarketplaceSettingsById(string marketPlaceId);
+        MarketplaceTheme GetThemeByMarketplaceId(string marketPlaceId);
         Template GetTemplateById(int templateId);
-        Menu GetMenuByName(int marketPlaceId, string menuName);
+        Menu GetMenuByName(string marketPlaceId, string menuName);
 
 
         Task<decimal> AddShop(ShopModel.InputModel shopModel);

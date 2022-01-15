@@ -13,5 +13,6 @@ namespace webui.Models
         public string BlockTitle { get; set; }
         public int BlockTypeOfContent { get; set; }
         public bool? IsDataFeed { get; set; }
+        public BlockContent Content { get; set; }
     }
 }

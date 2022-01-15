@@ -16,15 +16,15 @@ namespace webui.Controllers
     {
 
         private readonly ILogger<HomeController> _logger;
-        private readonly IMarketplaceService _marketPlaceService;
-        private readonly ISiteContentService _siteContentService;
+        private readonly IMarketplaceNoSqlService _marketPlaceNoSqlService;
+        private readonly ISiteContentNoSqlService _siteContentService;
         private readonly IServiceProvider _service;
         public ProfileController(ILogger<HomeController> logger,
-        IMarketplaceService marketPlaceService, ISiteContentService siteContentService, IServiceProvider serviceProvider) :
-    base(marketPlaceService, siteContentService)
+        IMarketplaceNoSqlService marketPlaceNoSqlService, ISiteContentNoSqlService siteContentNoSqlService, IServiceProvider serviceProvider) :
+    base(marketPlaceNoSqlService, siteContentNoSqlService)
 
         {
-            _marketPlaceService = marketPlaceService;
+            _marketPlaceNoSqlService = marketPlaceNoSqlService;
         }
 
 

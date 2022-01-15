@@ -7,8 +7,8 @@ namespace webui.Interfaces
     public interface ISiteSettingsService
     {
 
-        IDictionary<string, SiteSettings> GetSiteSettingsByMarketplaceId(int marketPlaceId);
-        IList<SiteImage> GetSiteImagesByMarketplaceId(int marketPlaceId, int blockId);
-        IList<SiteLink> GetSiteLinksByMarketplaceId(int marketPlaceId, int blockId);
+        IDictionary<string, SiteSettings> GetSiteSettingsByMarketplaceId(string marketPlaceId);
+        IList<SiteImage> GetSiteImagesByMarketplaceId(string marketPlaceId, int blockId);
+        IList<SiteLink> GetSiteLinksByMarketplaceId(string marketPlaceId, int blockId);
     }
 }

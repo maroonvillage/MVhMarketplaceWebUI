@@ -15,15 +15,15 @@ namespace webui.Areas
     public class RazorBasePageModel : PageModel, IModelBuilder
     {
         private Marketplace _marketPlace;
-        private IMarketplaceService _marketPlaceService;
-        private ISiteContentService _siteContentService;
+        private IMarketplaceNoSqlService _marketPlaceNoSqlService;
+        private ISiteContentNoSqlService _siteContentNoSqlService;
 
 
-       public RazorBasePageModel(IMarketplaceService marketPlaceService, ISiteContentService siteContentService)
+       public RazorBasePageModel(IMarketplaceNoSqlService marketPlaceNoSqlService, ISiteContentNoSqlService siteContentNoSqlService)
         {
             //_context = context;
-            _marketPlaceService = marketPlaceService;
-            _siteContentService = siteContentService;
+            _marketPlaceNoSqlService = marketPlaceNoSqlService;
+            _siteContentNoSqlService = siteContentNoSqlService;
 
         }
 
@@ -53,15 +53,15 @@ namespace webui.Areas
         {
             var marketPlaceIdCookie = HttpContext != null ? HttpContext.Request.Cookies["MarketplaceId"] : null;
             
-            var marketPlaceId = -1;
+            string marketPlaceId = null;
             if (marketPlaceIdCookie != null)
             {
-                _ = int.TryParse(marketPlaceIdCookie, out marketPlaceId);
+                marketPlaceId = marketPlaceIdCookie;
             }
             var domain = HttpContext.Request.Host.Value;
-            Marketplace = marketPlaceId < 0 ? _marketPlaceService.GetMarketplaceByDomain(domain) : _marketPlaceService.GetMarketplaceById(marketPlaceId);
+            Marketplace = string.IsNullOrEmpty(marketPlaceId) ? _marketPlaceNoSqlService.GetMarketplaceByDomainAsync(domain).Result : _marketPlaceNoSqlService.GetMarketplaceByIdAsync(marketPlaceId).Result;
             // ERROR HERE IF MARKETPLACE IS NULL (NO MARKETPLACE DETECTED)
-            if (Marketplace == null || Marketplace.MarketplaceId < 0)
+            if (Marketplace == null || string.IsNullOrEmpty(Marketplace.MarketplaceId))
             {
                 Response.Redirect("/error/marketplace-not-configured");
                 return;
@@ -118,7 +118,7 @@ namespace webui.Areas
                 pageMachineName = GetType().Name.Replace("Model", string.Empty);
             }
 
-            return _siteContentService.GetSiteContentDictionary(Marketplace, pageMachineName);
+            return _siteContentNoSqlService.GetSiteContentDictionary(Marketplace, pageMachineName);
         }
 
 

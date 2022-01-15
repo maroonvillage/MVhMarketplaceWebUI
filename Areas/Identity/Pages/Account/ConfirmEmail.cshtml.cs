@@ -23,16 +23,16 @@ namespace webui.Areas.Identity.Pages.Account
         private SitePageType _page = SitePageType.Unknown;
         private IDictionary<string, SiteContent> _siteContentBlock;
         private readonly UserManager<IdentityUser> _userManager;
-        private IMarketplaceService _marketPlaceService;
-        private ISiteContentService _siteContentService;
+        private IMarketplaceNoSqlService _marketPlaceNoSqlService;
+        private ISiteContentNoSqlService _siteContentNoSqlService;
 
         public ConfirmEmailModel(UserManager<IdentityUser> userManager,
-            IMarketplaceService marketPlaceService,
-            ISiteContentService siteContentService) :
-            base(marketPlaceService, siteContentService)
+            IMarketplaceNoSqlService marketPlaceNoSqlService,
+            ISiteContentNoSqlService siteContentNoSqlService) :
+            base(marketPlaceNoSqlService, siteContentNoSqlService)
         {
-            _marketPlaceService = marketPlaceService;
-            _siteContentService = siteContentService;
+            _marketPlaceNoSqlService = marketPlaceNoSqlService;
+            _siteContentNoSqlService = siteContentNoSqlService;
             _userManager = userManager;
         }
 

@@ -2,7 +2,7 @@ namespace webui.Models
 {
     public interface IShopModel
     {
-        int ShopId { get; set; }
+         int ShopId { get; set; }
          string ShopName { get; set; }
          string Description { get; set; }
          short Established { get; set; }

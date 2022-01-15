@@ -15,13 +15,15 @@ namespace webui.Data
     {
 
         private string _connectionString;
+        private string _contentConnectionString;
         //private readonly webuiIdentityDbContext _context;
 
         private readonly IConfiguration _configuration;
 
         public MarketplaceRepository(IConfiguration configuration)
         {
-            _connectionString = configuration["ConnectionStrings:ContentConnection"];
+            _connectionString = configuration["ConnectionStrings:MarketplaceConnection"];
+            _contentConnectionString = configuration["ConnectionStrings:ContentConnection"];
         }
 
         public Marketplace GetMarketplaceByDomain(string domain)
@@ -52,57 +54,65 @@ namespace webui.Data
                                on m.MarketplaceId = ms.MarketplaceId
                             WHERE Url = @domain;";
 
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                var command = new SqlCommand(sql, connection)
+
+                using (var connection = new SqlConnection(_contentConnectionString))
                 {
-                    CommandType = System.Data.CommandType.Text
-                };
-                command.Parameters.AddWithValue("@domain", domain);
-                connection.Open();
-               using(var reader = command.ExecuteReader())
-                {
-                    
-                    while (reader.Read())
+                    var command = new SqlCommand(sql, connection)
                     {
-                        marketPlace = new Marketplace
+                        CommandType = System.Data.CommandType.Text
+                    };
+                    command.Parameters.AddWithValue("@domain", domain);
+                    connection.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+
+                        while (reader.Read())
                         {
-                            MarketplaceId = Convert.ToInt32(reader["MarketPlaceId"]),
-                            Name = reader["Name"].ToString(),
-                            Description = reader["Description"].ToString(),
-                            Url = reader["Url"].ToString()
-                        };
+                            marketPlace = new Marketplace
+                            {
+                                MarketplaceId = reader["MarketPlaceId"].ToString(),
+                                Name = reader["Name"].ToString(),
+                                Description = reader["Description"].ToString(),
+                                Url = reader["Url"].ToString()
+                            };
 
-                        marketplaceSetting = new MarketplaceSetting
-                        {
-                            SettingsId = Convert.ToInt32(reader["SettingsId"]),
-                            City = reader["City"].ToString(),
-                        };
+                            marketplaceSetting = new MarketplaceSetting
+                            {
+                                SettingsId = Convert.ToInt32(reader["SettingsId"]),
+                                City = reader["City"].ToString(),
+                            };
 
-                        //marketPlaceTheme = new MarketplaceTheme
-                        //{
-                        //};
-                        template = new Template
-                        {
-                            TemplateId = Convert.ToInt32(reader["TemplateId"]),
-                            TemplateMachineName = reader["TemplateMachineName"].ToString(),
-                            TemplateName = reader["TemplateName"].ToString(),
-                            IsMobile = Convert.ToBoolean(reader["IsMobil"])
-                        };
+                            //marketPlaceTheme = new MarketplaceTheme
+                            //{
+                            //};
+                            template = new Template
+                            {
+                                TemplateId = Convert.ToInt32(reader["TemplateId"]),
+                                TemplateMachineName = reader["TemplateMachineName"].ToString(),
+                                TemplateName = reader["TemplateName"].ToString(),
+                                IsMobile = Convert.ToBoolean(reader["IsMobil"])
+                            };
 
-                        break;
+                            break;
 
+
+                        }
+                        marketplaceSetting.Template = template;
+                        marketPlace.Settings = marketplaceSetting;
 
                     }
-                    marketplaceSetting.Tempate = template;
-                    marketPlace.Settings = marketplaceSetting;
-
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
             return marketPlace ?? new Marketplace();
         }
 
-        public Marketplace GetMarketplaceById(int marketPlacdId)
+        public Marketplace GetMarketplaceById(string marketPlacdId)
         {
             Marketplace marketPlace = null;
             string sql = @"SELECT [MarketplaceId]
@@ -127,7 +137,7 @@ namespace webui.Data
                     {
                         marketPlace = new Marketplace
                         {
-                            MarketplaceId = Convert.ToInt32(reader["MarketPlaceId"]),
+                            MarketplaceId = reader["MarketPlaceId"].ToString(),
                             Name = reader["Name"].ToString(),
                             Description = reader["Description"].ToString(),
                             Url = reader["Url"].ToString()
@@ -140,7 +150,7 @@ namespace webui.Data
             return marketPlace ?? new Marketplace();
         }
 
-        public MarketplaceSetting GetMarketplaceSettingsById(int marketPlaceId)
+        public MarketplaceSetting GetMarketplaceSettingsById(string marketPlaceId)
         {
             return new MarketplaceSetting();
         }
@@ -150,7 +160,7 @@ namespace webui.Data
         /// </summary>
         /// <param name="marketPlaceId"></param>
         /// <returns></returns>
-        public MarketplaceTheme GetThemeByMarketplaceId(int marketPlaceId)
+        public MarketplaceTheme GetThemeByMarketplaceId(string marketPlaceId)
         {
 
             return new MarketplaceTheme();
@@ -163,7 +173,7 @@ namespace webui.Data
             return  new Template();
         }
 
-        public Menu GetMenuByName(int marketPlaceId, string menuName)
+        public Menu GetMenuByName(string marketPlaceId, string menuName)
         {
 
                 Menu menu = null;
@@ -188,7 +198,7 @@ namespace webui.Data
                             ";
                 try
                 {
-                using (var connection = new SqlConnection(_connectionString))
+                using (var connection = new SqlConnection(_contentConnectionString))
                 {
                     var command = new SqlCommand(sqlText, connection)
                     {
@@ -410,7 +420,7 @@ namespace webui.Data
                     FROM [MarketplaceShop]  s
                         INNER JOIN dbo.HairPros h
                             ON s.ShopId = h.ShopId
-                    Where [OwnerId] = @Id;";
+                    WHERE [OwnerId] = @Id;";
 
             using (var connection = new SqlConnection(_connectionString))
             {

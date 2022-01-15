@@ -5,6 +5,7 @@
     ViewData["Title"] = Model.PageTitle;
 }
 @await contentHelperService.SiteContentBlock("HeaderImage", Model, Html)
+
 <nav class="navbar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="300">
     <div class="container">
         @await contentHelperService.SiteContentBlock("HeaderLogo", Model, Html)

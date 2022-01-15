@@ -33,12 +33,12 @@ namespace webui.Services
             return mrktPlc ?? new Marketplace();
         }
 
-        public Marketplace GetMarketplaceById(int marketPlaceId)
+        public Marketplace GetMarketplaceById(string marketPlaceId)
         {
             return new Marketplace();
         }
 
-        public Menu GetMenuByName(int marketPlaceId, string menuName)
+        public Menu GetMenuByName(string marketPlaceId, string menuName)
         {
             return _marketplaceRepository.GetMenuByName(marketPlaceId, menuName);
         }

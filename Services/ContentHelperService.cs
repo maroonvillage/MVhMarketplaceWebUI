@@ -20,7 +20,7 @@ namespace webui.Services
         private const string SiteContentBlockDataIsNullOrMissingFormattedMessage = "";
         private const string SiteContentBlockDataInvalidFeedUrlFormattedMessage = "<span style='color: red !important;font-weight:bold !important;'>Model.SiteContentBlock[\"{0}\"] has an invalid feed url [{1}]</span>";
         private const string PartialViewNotFoundFormattedMessage = "The partial view '{0}' was not found";
-        private const string DefaultFeedPartialViewName = "GenericFeed";
+        private const string DefaultFeedPartialViewName = "Error";
 
 
         //private readonly string _message = "Hello, world from the Content Helper Service.";

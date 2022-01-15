@@ -18,8 +18,8 @@ namespace webui.Controllers
         //protected webuiIdentityDbContext _context;
 
         private Marketplace _marketPlace;
-        private IMarketplaceService _marketPlaceService;
-        private ISiteContentService _siteContentService;
+        private IMarketplaceNoSqlService _marketPlaceNoSqlService;
+        private ISiteContentNoSqlService _siteContentNoSqlService;
 
         public Marketplace Marketplace
         {
@@ -35,11 +35,10 @@ namespace webui.Controllers
             }
         }
 
-        public SiteControllerBase(IMarketplaceService marketPlaceService, ISiteContentService siteContentService)
+        public SiteControllerBase(IMarketplaceNoSqlService marketPlaceNoSqlService, ISiteContentNoSqlService siteContentNoSqlService)
         {
-            //_context = context;
-            _marketPlaceService = marketPlaceService;
-            _siteContentService = siteContentService;
+            _marketPlaceNoSqlService = marketPlaceNoSqlService;
+            _siteContentNoSqlService = siteContentNoSqlService;
         }
 
 
@@ -54,16 +53,16 @@ namespace webui.Controllers
                 int.TryParse(marketPlaceIdCookie, out marketPlaceId);
             }
             var domain = HttpContext.Request.Host.Value;
-            Marketplace = marketPlaceId < 0 ? _marketPlaceService.GetMarketplaceByDomain(domain) : _marketPlaceService.GetMarketplaceById(marketPlaceId);
+            Marketplace = marketPlaceId < 0 ? _marketPlaceNoSqlService.GetMarketplaceByDomainAsync(domain).Result : _marketPlaceNoSqlService.GetMarketplaceByIdAsync(Convert.ToString(marketPlaceId)).Result;
             // ERROR HERE IF MARKETPLACE IS NULL (NO MARKETPLACE DETECTED)
-            if (Marketplace == null || Marketplace.MarketplaceId < 0)
+            if (Marketplace == null || string.IsNullOrEmpty(Marketplace.MarketplaceId))
             {
-                Response.Redirect("/error/marketplace-not-configured");
+                Response.Redirect("/home/error/");
                 return;
             }
            
-
         }
+
 
         public T CreateModel<T>(Action<T> action = null, string pageMachineName = null, SitePageType? page = null)
            where T : IPageModel, new()
@@ -112,7 +111,7 @@ namespace webui.Controllers
             {
                 pageMachineName = GetType().Name.Replace("Controller", string.Empty);
             }
-            return _siteContentService.GetSiteContentDictionary(Marketplace, pageMachineName);
+            return _siteContentNoSqlService.GetSiteContentDictionary(Marketplace, pageMachineName);
         }
     }
 }

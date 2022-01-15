@@ -63,7 +63,7 @@ namespace webui.Data
                 {
                     yield return new SiteContent
                     {
-                        MarketplaceId = Convert.ToInt32(reader["MarketplaceId"]),
+                        MarketplaceId =reader["MarketplaceId"].ToString(),
                         PageId = Convert.ToInt32(reader["PageId"]),
                         ContentName = reader["ContentName"].ToString(),
                         ContentValue = reader["ContentValue"].ToString(),
@@ -98,8 +98,8 @@ namespace webui.Data
             IDictionary<string, SiteContent> siteContentDictionary = null;
             try
             {
-                var templateMachineName = marketPlace.Settings.Tempate.TemplateMachineName;
-                return GetSiteContentDictionaryByMarketplaceId(marketPlace.MarketplaceId, templateMachineName, pageMachineName).ToDictionary(x => x.Block.BlockMachineName);
+                var templateMachineName = marketPlace.Settings.Template.TemplateMachineName;
+                return GetSiteContentDictionaryByMarketplaceId(Convert.ToInt32(marketPlace.MarketplaceId), templateMachineName, pageMachineName).ToDictionary(x => x.Block.BlockMachineName);
             }
             catch(Exception e)
             {

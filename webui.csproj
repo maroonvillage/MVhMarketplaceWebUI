@@ -10,6 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="NETCore.MailKit" />
+    <None Remove="Views\Profile\" />
+    <None Remove="Microsoft.Azure.Cosmos" />
   </ItemGroup>
   <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
@@ -39,6 +41,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.23.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +55,7 @@
     <Folder Include="Areas\Identity\Pages\Account\" />
     <Folder Include="Areas\Identity\Pages\Account\Manage\" />
     <Folder Include="Views\Account\" />
+    <Folder Include="Views\Profile\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Extensions\HtmlHelperExtensions.cs" />

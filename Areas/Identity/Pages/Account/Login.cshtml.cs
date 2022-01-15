@@ -25,21 +25,21 @@ namespace webui.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private IMarketplaceService _marketPlaceService;
-        private ISiteContentService _siteContentService;
+        private IMarketplaceNoSqlService _marketPlaceNoSqlService;
+        private ISiteContentNoSqlService _siteContentNoSqlService;
 
         public LoginModel(SignInManager<IdentityUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<IdentityUser> userManager,
-            IMarketplaceService marketPlaceService,
-            ISiteContentService siteContentService) :
-            base(marketPlaceService, siteContentService)
+            IMarketplaceNoSqlService marketPlaceNoSqlService,
+            ISiteContentNoSqlService siteContentNoSqlService) :
+            base(marketPlaceNoSqlService, siteContentNoSqlService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _marketPlaceService = marketPlaceService;
-            _siteContentService = siteContentService;
+            _marketPlaceNoSqlService = marketPlaceNoSqlService;
+            _siteContentNoSqlService = siteContentNoSqlService;
 
         }
 

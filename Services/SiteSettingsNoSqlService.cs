@@ -1,52 +1,51 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using webcoreapp.Enumerators;
 using webui.Interfaces;
 using webui.Models;
 
 namespace webui.Services
 {
-    public class SiteSettingsService : ISiteSettingsService, IDynamicContentProvider
+    public class SiteSettingsNoSqlService : ISiteSettingsNoSqlService, IDynamicContentProvider
     {
+        private readonly ISiteSettingsNoSqlRepository _siteSettingseNoSqlRepository;
 
-        private readonly ISiteSettingsRepository _siteSettingseRepository;
-        public SiteSettingsService(ISiteSettingsRepository siteSettingseRepository)
+        public SiteSettingsNoSqlService(ISiteSettingsNoSqlRepository siteSettingseNoSqlRepository)
         {
-            _siteSettingseRepository = siteSettingseRepository;
+            _siteSettingseNoSqlRepository = siteSettingseNoSqlRepository;
         }
 
 
-
-        public IDictionary<string, SiteSettings> GetSiteSettingsByMarketplaceId(string marketPlaceId)
+        public async Task<IDictionary<string, SiteSettings>> GetSiteSettingsByMarketplaceId(string marketPlaceId)
         {
-            return _siteSettingseRepository.GetSiteSettingsByMarketplaceId(marketPlaceId);
+            return await _siteSettingseNoSqlRepository.GetSiteSettingsByMarketplaceId(marketPlaceId);
         }
-
-        public IList<SiteImage> GetSiteImagesByMarketplaceId(string marketPlaceId, int blockId)
+        public IList<BlockImage> GetSiteImagesByMarketplaceId(string marketPlaceId, int blockId)
         {
 
             //TODO: check cache first
-            var siteImages =  _siteSettingseRepository.GetSiteImagesByMarketplaceId(marketPlaceId);
+            var siteImages =  _siteSettingseNoSqlRepository.GetSiteImagesByMarketplaceId(marketPlaceId).Result;
 
             //Use blockId to filter results
             //LINQ Method Syntax.
-            var results = siteImages.Where(i => i.BlockImage.BlockId == blockId);
+            var results = siteImages.Where(i => i.BlockId == blockId);
 
-            
-            return results.ToList<SiteImage>();
+
+            return results.ToList<BlockImage>();
         }
-
-        public IList<SiteLink> GetSiteLinksByMarketplaceId(string marketPlaceId, int blockId)
+        public IList<BlockLink> GetSiteLinksByMarketplaceId(string marketPlaceId, int blockId)
         {
             //TODO: check cache first
-            var siteLinks = _siteSettingseRepository.GetSiteLinksByMarketplaceId(marketPlaceId);
+            var siteLinks = _siteSettingseNoSqlRepository.GetSiteLinksByMarketplaceId(marketPlaceId).Result;
 
             //Use blockId to filter results
             //LINQ Method Syntax.
-            var results = siteLinks.Where(i => i.BlockLink.BlockId == blockId);
+            var results = siteLinks.Where(i => i.BlockId == blockId);
 
 
-            return results.ToList<SiteLink>();
+            return results.ToList<BlockLink>();
         }
 
         public bool CanProviderData(SiteContent siteContent)
@@ -74,6 +73,7 @@ namespace webui.Services
                     return false;
             }
         }
+
 
     }
 }

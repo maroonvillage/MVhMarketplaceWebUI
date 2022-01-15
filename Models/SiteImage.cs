@@ -12,8 +12,8 @@ namespace webui.Models
         public int SiteImageId { get; set; }
         public string ImageUrl { get; set; }
         public string FileName { get; set; }
-        public int? SequenceNumber { get; set; }
-        public int? WebsiteId { get; set; }
+        public int SequenceNumber { get; set; }
+        public int MarketplaceId { get; set; }
         public BlockImage BlockImage { get; set; }
         public SiteLink SiteLink { get; set; }
 

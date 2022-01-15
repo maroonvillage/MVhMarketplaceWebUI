@@ -9,6 +9,10 @@ namespace webui.Enums
         Login = 2,
         Register = 4,
         RegisterConfirmation = 5,
-        ConfirmEmail = 6
+        ConfirmEmail = 6,
+        Error = 8,
+        Profile = 9
     }
+
+
 }

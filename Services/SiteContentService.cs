@@ -37,7 +37,7 @@ namespace webui.Services
                 throw new NullReferenceException("marketPlace.Settings is null");
             }
 
-            return GetSiteContentDictionaryByMarketplaceId(marketPlace.MarketplaceId, marketPlace.Settings.Tempate.TemplateMachineName, pageMachineName);
+            return GetSiteContentDictionaryByMarketplaceId(Convert.ToInt32(marketPlace.MarketplaceId), marketPlace.Settings.Template.TemplateMachineName, pageMachineName);
         }
 
 

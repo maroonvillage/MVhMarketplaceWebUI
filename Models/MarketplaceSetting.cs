@@ -11,6 +11,6 @@ namespace webui.Models
         public int SettingsId { get; set; }
         public int MarketplaceId { get; set; }
         public string City { get; set; }
-        public Template Tempate { get; set; }
+        public Template Template { get; set; }
     }
 }

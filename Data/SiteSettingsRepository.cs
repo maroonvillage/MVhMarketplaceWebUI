@@ -23,7 +23,7 @@ namespace webui.Data
         /// </summary>
         /// <param name="marketPlaceId"></param>
         /// <returns></returns>
-        public IDictionary<string, SiteSettings> GetSiteSettingsByMarketplaceId(int marketPlaceId)
+        public IDictionary<string, SiteSettings> GetSiteSettingsByMarketplaceId(string marketPlaceId)
         {
             var siteSettingsDictionary = new Dictionary<string, SiteSettings>();
             string sql = @" SELECT 
@@ -83,7 +83,7 @@ namespace webui.Data
         /// </summary>
         /// <param name="marketPlaceId"></param>
         /// <returns></returns>
-        public IList<SiteImage> GetSiteImagesByMarketplaceId(int marketPlaceId)
+        public IList<SiteImage> GetSiteImagesByMarketplaceId(string marketPlaceId)
         {
             var siteImages = new List<SiteImage>();
             string sql = @" SELECT 
@@ -140,8 +140,8 @@ namespace webui.Data
                         {
                             FileName = Convert.ToString(reader["FileName"]),
                             ImageUrl = Convert.ToString(reader["ImageUrl"]),
-                            SequenceNumber = reader["SequenceNumber"] != DBNull.Value ? Convert.ToInt32(reader["SequenceNumber"]) : null,
-                            WebsiteId = Convert.ToInt32(reader["WebsiteId"])
+                            SequenceNumber = reader["SequenceNumber"] != DBNull.Value ? Convert.ToInt32(reader["SequenceNumber"]) : -1,
+                            MarketplaceId = Convert.ToInt32(reader["WebsiteId"])
                         };
 
                         var siteLink = new SiteLink
@@ -175,7 +175,7 @@ namespace webui.Data
         /// </summary>
         /// <param name="marketPlaceId"></param>
         /// <returns></returns>
-        public IList<SiteLink> GetSiteLinksByMarketplaceId(int marketPlaceId)
+        public IList<SiteLink> GetSiteLinksByMarketplaceId(string marketPlaceId)
         {
             var siteLinks = new List<SiteLink>();
             string sql = @" SELECT
@@ -232,7 +232,7 @@ namespace webui.Data
                             Title = reader["Title"] != DBNull.Value ? Convert.ToString(reader["Title"]) : null,
                             Target = reader["Target"] != DBNull.Value ? Convert.ToString(reader["Target"]) : null,
                             Url = reader["Url"] != DBNull.Value ? Convert.ToString(reader["Url"]) : null,
-                            WebsiteId = Convert.ToInt32(reader["WebsiteId"]),
+                            MarketplaceId = Convert.ToInt32(reader["WebsiteId"]),
 
                         };
 
@@ -247,8 +247,8 @@ namespace webui.Data
                             SiteImageId = reader["ImageId"] != DBNull.Value ? Convert.ToInt32(reader["ImageId"]) : -1,
                             FileName = Convert.ToString(reader["FileName"]),
                             ImageUrl = Convert.ToString(reader["ImageUrl"]),
-                            SequenceNumber = reader["SequenceNumber"] != DBNull.Value ? Convert.ToInt32(reader["SequenceNumber"]) : null,
-                            WebsiteId = reader["WebsiteId"] != DBNull.Value ? Convert.ToInt32(reader["WebsiteId"]) : null
+                            SequenceNumber = reader["SequenceNumber"] != DBNull.Value ? Convert.ToInt32(reader["SequenceNumber"]) : -1,
+                            MarketplaceId = reader["WebsiteId"] != DBNull.Value ? Convert.ToInt32(reader["WebsiteId"]) : -1
                         };
 
 
